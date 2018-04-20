@@ -1,9 +1,11 @@
 package com.epam.salon;
 
-import com.epam.salon.model.Client;
+import com.epam.salon.dao.DaoFactory;
+
+import static com.epam.salon.dao.DaoFactory.Entity.*;
 
 public class Solution {
     public static void main(String[] args) {
-        Client client = new Client("lfkjs", "slkfj");
+        DaoFactory.create(ADMIN);
     }
 }
