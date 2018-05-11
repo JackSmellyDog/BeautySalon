@@ -10,6 +10,7 @@ import java.util.List;
 public class AdminDao implements IAdminDao {
     private ConnectionManager connectionManager = new ConnectionManager("jdbc/db");
     private static final String ALL_ADMINS_QUERY = "SELECT * FROM beauty_admins";
+    private static final String BY_USERNAME_QUERY = "SELECT * FROM beauty_admins WHERE login='%s'";
 
     @Override
     public List<Admin> getAll() {
@@ -59,4 +60,30 @@ public class AdminDao implements IAdminDao {
 
     }
 
+    @Override
+    public Admin findByUsername(String username) {
+        Admin admin = null;
+        try(Connection connection = connectionManager.getConnection();
+            Statement statement = connection.createStatement()
+        ){
+
+            ResultSet resultSet = statement.executeQuery(String.format(
+                    BY_USERNAME_QUERY,
+                    username
+            ));
+
+            while (resultSet.next()){
+                admin = new Admin(
+                        resultSet.getString("login"),
+                        resultSet.getString("password"),
+                        resultSet.getString("phone")
+                );
+            }
+
+            return admin;
+        } catch (SQLException e) {
+            e.printStackTrace(); // TODO log4j
+            return null;
+        }
+    }
 }

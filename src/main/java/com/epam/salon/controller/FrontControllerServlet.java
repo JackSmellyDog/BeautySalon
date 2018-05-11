@@ -1,7 +1,7 @@
 package com.epam.salon.controller;
 
-import com.epam.salon.controller.command.FrontCommand;
-import com.epam.salon.controller.command.UnknownCommand;
+import com.epam.salon.controller.commands.FrontCommand;
+import com.epam.salon.controller.commands.UnknownCommand;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,8 +26,8 @@ public class FrontControllerServlet extends HttpServlet {
     private FrontCommand getCommand(HttpServletRequest request) {
         try {
             Class type = Class.forName(String.format(
-                    "com.epam.salon.controller.command.%sCommand",
-                    request.getParameter("command")
+                    "com.epam.salon.controller.commands.%sCommand",
+                    request.getParameter("commands")
             ));
 
             return (FrontCommand) type.asSubclass(FrontCommand.class).newInstance();

@@ -7,4 +7,13 @@
         <resource-env-ref-name>jdbc/db</resource-env-ref-name>
         <resource-env-ref-type>javax.sql.DataSource</resource-env-ref-type>
     </resource-env-ref>
+
+    <filter>
+        <filter-name>TestFilter</filter-name>
+        <filter-class>com.epam.salon.filter.TestFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>TestFilter</filter-name>
+        <url-pattern>/</url-pattern>
+    </filter-mapping>
 </web-app>

@@ -1,4 +1,4 @@
-package com.epam.salon.controller.command;
+package com.epam.salon.controller.commands;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;

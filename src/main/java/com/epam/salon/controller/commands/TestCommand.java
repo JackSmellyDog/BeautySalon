@@ -1,4 +1,4 @@
-package com.epam.salon.controller.command;
+package com.epam.salon.controller.commands;
 
 import com.epam.salon.model.Admin;
 import com.epam.salon.services.UserService;
