@@ -33,5 +33,10 @@
     </form>
 </fieldset>
 
+<br>
+
+<a href="../../registration.jsp">Registration</a>
+
+
 </body>
 </html>

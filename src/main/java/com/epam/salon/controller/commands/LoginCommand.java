@@ -1,6 +1,7 @@
 package com.epam.salon.controller.commands;
 
 import com.epam.salon.model.Admin;
+import com.epam.salon.model.Client;
 import com.epam.salon.services.UserService;
 
 import javax.servlet.ServletException;
@@ -16,10 +17,8 @@ public class LoginCommand extends FrontCommand {
 
 
         UserService userService = new UserService();
-        Admin admin = userService.findByUsername(username);
 
-
-        if (admin != null && admin.getPassword().equals(password)) {
+        if (userService.login(username, password)) {
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
             //request.getRequestDispatcher("listProducts.jsp").forward(request, response);

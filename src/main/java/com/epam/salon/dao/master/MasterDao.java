@@ -29,4 +29,9 @@ public class MasterDao implements IMasterDao {
     public void update(long id, Master item) {
 
     }
+
+    @Override
+    public Master findByUsername(String username) {
+        return null;
+    }
 }

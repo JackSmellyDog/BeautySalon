@@ -7,15 +7,21 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ConnectionManager {
+    private static ConnectionManager instance = new ConnectionManager();
     private DataSource dataSource;
 
-    public ConnectionManager(String jndiname) {
+
+    private ConnectionManager() {
         try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/" + jndiname);
+            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/db");
         } catch (NamingException e) {
             // Handle error that it's not configured in JNDI.
-            throw new IllegalStateException(jndiname + " is missing in JNDI!", e);
+            throw new IllegalStateException("jdbc/db is missing in JNDI!", e);
         }
+    }
+
+    public static ConnectionManager getInstance() {
+        return instance;
     }
 
     public Connection getConnection() throws SQLException {

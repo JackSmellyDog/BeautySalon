@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminDao implements IAdminDao {
-    private ConnectionManager connectionManager = new ConnectionManager("jdbc/db");
+    private ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String ALL_ADMINS_QUERY = "SELECT * FROM beauty_admins";
     private static final String BY_USERNAME_QUERY = "SELECT * FROM beauty_admins WHERE login='%s'";
 

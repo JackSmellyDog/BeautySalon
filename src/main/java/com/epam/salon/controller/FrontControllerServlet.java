@@ -27,7 +27,7 @@ public class FrontControllerServlet extends HttpServlet {
         try {
             Class type = Class.forName(String.format(
                     "com.epam.salon.controller.commands.%sCommand",
-                    request.getParameter("commands")
+                    request.getParameter("command")
             ));
 
             return (FrontCommand) type.asSubclass(FrontCommand.class).newInstance();
