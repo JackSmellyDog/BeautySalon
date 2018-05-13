@@ -7,6 +7,8 @@ import com.epam.salon.services.RequestService;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class NewRequestCommand extends FrontCommand {
     @Override
@@ -25,6 +27,18 @@ public class NewRequestCommand extends FrontCommand {
             String date = request.getParameter("date");
             String time = request.getParameter("time");
 
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime dateTime = LocalDateTime.parse(String.format("%s %s", date, time), formatter);
+
+            //2018-05-16
+            //15:03
+
+            requestService.create(new Request(
+                    dateTime,
+                    clientId,
+                    Long.parseLong(masterId)
+            ));
+
             PrintWriter writer = response.getWriter();
 
             StringBuilder builder = new StringBuilder();
@@ -37,8 +51,6 @@ public class NewRequestCommand extends FrontCommand {
 
             writer.println(builder.toString());
             writer.close();
-
-            //requestService.create(new Request());
 
 
         } else {

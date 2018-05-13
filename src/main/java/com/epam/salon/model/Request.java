@@ -1,8 +1,10 @@
 package com.epam.salon.model;
 
+import java.time.LocalDateTime;
+
 public class Request {
     private Long id;
-    private String date; // change to something else
+    private LocalDateTime date;
     private Long clientId;
     private Long masterId;
 
@@ -14,11 +16,11 @@ public class Request {
         this.id = id;
     }
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -38,14 +40,14 @@ public class Request {
         this.masterId = masterId;
     }
 
-    public Request(Long id, String date, Long clientId, Long masterId) {
+    public Request(Long id, LocalDateTime date, Long clientId, Long masterId) {
         this.id = id;
         this.date = date;
         this.clientId = clientId;
         this.masterId = masterId;
     }
 
-    public Request(String date, Long clientId, Long masterId) {
+    public Request(LocalDateTime date, Long clientId, Long masterId) {
         this(null, date, clientId, masterId);
     }
 }

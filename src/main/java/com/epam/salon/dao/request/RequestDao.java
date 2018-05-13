@@ -6,11 +6,12 @@ import com.epam.salon.model.Request;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class RequestDao implements IRequestDao {
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
-    private static final String INSERT_REQUEST_QUERY = "INSERT INTO beauty_clients (time, client_id, master_id) VALUES (?, ?, ?)";
+    private static final String INSERT_REQUEST_QUERY = "INSERT INTO beauty_requests (appointment_time, client_id, master_id) VALUES (?, ?, ?)";
 
     @Override
     public List<Request> findAll() {
@@ -22,7 +23,7 @@ public class RequestDao implements IRequestDao {
         try(Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_REQUEST_QUERY)
         ){
-            preparedStatement.setString(1, item.getDate());
+            preparedStatement.setTimestamp(1, Timestamp.valueOf(item.getDate()));
             preparedStatement.setLong(2, item.getClientId());
             preparedStatement.setLong(3, item.getMasterId());
             preparedStatement.executeUpdate();
