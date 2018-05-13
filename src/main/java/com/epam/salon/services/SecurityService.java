@@ -11,7 +11,7 @@ public class SecurityService implements ISecurityService {
     }
 
     @Override
-    public boolean checkPasswords(String originalPassword, String hashed) {
+    public boolean checkPassword(String originalPassword, String hashed) {
         return BCrypt.checkpw(originalPassword, hashed);
     }
 }

@@ -11,8 +11,8 @@ public class Admin extends User {
         this.phone = phone;
     }
 
-    public Admin(String login, String password, String phone) {
-        super(login, password);
+    public Admin(Long id, String login, String password, String phone) {
+        super(id, login, password);
         this.phone = phone;
     }
 }

@@ -7,6 +7,7 @@ import com.epam.salon.dao.master.MasterDao;
 import com.epam.salon.exceptions.SuchUserIsExistException;
 import com.epam.salon.model.Admin;
 import com.epam.salon.model.Client;
+import com.epam.salon.model.Master;
 import com.epam.salon.model.User;
 
 
@@ -20,12 +21,10 @@ public class UserService implements IUserService {
     private ClientDao clientDao = (ClientDao) DaoFactory.create(CLIENT);
 
     private SecurityService securityService = new SecurityService();
+    private ValidationService validationService = new ValidationService();
 
-    /*******
-     * I don't like this method
-    * */
 
-    public User findByUsername(String username){
+    public User findByUsername(String username) {
         User user = adminDao.findByUsername(username);
         if (user != null) return user;
 
@@ -36,14 +35,14 @@ public class UserService implements IUserService {
     }
 
 
-    public boolean login(String login, String password) {
+    public User login(String login, String password) {
         User user = findByUsername(login);
 
-        if (user == null) {
-            return false;
+        if (user == null || !securityService.checkPassword(password, user.getPassword())) {
+            throw new RuntimeException("Can't log in");
         }
 
-        return securityService.checkPasswords(password, user.getPassword());
+        return user;
     }
 
     public void register(String login, String password) throws SuchUserIsExistException {
@@ -63,7 +62,15 @@ public class UserService implements IUserService {
         return findByUsername(username) != null;
     }
 
-    public List<Admin> getAll() {
-        return adminDao.getAll();
+    public List<Admin> getAllAdmins() {
+        return adminDao.findAll();
+    }
+
+    public List<Client> getAllClients() {
+        return clientDao.findAll();
+    }
+
+    public List<Master> getAllMasters() {
+        return masterDao.findAll();
     }
 }

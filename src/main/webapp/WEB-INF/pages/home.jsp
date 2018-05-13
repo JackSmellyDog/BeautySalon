@@ -11,6 +11,8 @@
     <title>Title</title>
 </head>
 <body>
-    Wow! You are logged in!
+    <p>Wow! You are logged in!</p><br>
+    <a href="/app?command=MasterPage">Masters</a><br>
+    <a href="/app?command=NewRequest">New Request</a>
 </body>
 </html>

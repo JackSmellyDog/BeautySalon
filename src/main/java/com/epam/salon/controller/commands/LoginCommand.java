@@ -1,7 +1,6 @@
 package com.epam.salon.controller.commands;
 
-import com.epam.salon.model.Admin;
-import com.epam.salon.model.Client;
+import com.epam.salon.model.User;
 import com.epam.salon.services.UserService;
 
 import javax.servlet.ServletException;
@@ -11,23 +10,20 @@ import java.io.IOException;
 public class LoginCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
+        try {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+            UserService userService = new UserService();
+            User user = userService.login(username, password);
 
-
-        UserService userService = new UserService();
-
-        if (userService.login(username, password)) {
             HttpSession session = request.getSession();
-            session.setAttribute("username", username);
-            //request.getRequestDispatcher("listProducts.jsp").forward(request, response);
+            session.setAttribute("user", user);
             forward("home");
-        } else {
-            request.setAttribute("message", "Invalid data");
-            //request.getRequestDispatcher("login.jsp").forward(request, response);
-            forward("test");
-        }
 
+        } catch (Exception e) {
+            request.setAttribute("message", "Invalid data");
+            forward("login");
+        }
     }
 }

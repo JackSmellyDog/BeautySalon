@@ -1,33 +1,21 @@
 package com.epam.salon.dao.review;
 
 import com.epam.salon.dao.request.IRequestDao;
+import com.epam.salon.datasource.ConnectionManager;
 import com.epam.salon.model.Request;
 
 import java.util.List;
 
 public class ReviewDao implements IRequestDao {
+    private ConnectionManager connectionManager = ConnectionManager.getInstance();
+
     @Override
-    public List<Request> getAll() {
+    public List<Request> findAll() {
         return null;
-    }
-
-    @Override
-    public Request getById(long id) {
-        return null;
-    }
-
-    @Override
-    public void deleteById(long id) {
-
     }
 
     @Override
     public void insert(Request item) {
-
-    }
-
-    @Override
-    public void update(long id, Request item) {
 
     }
 }

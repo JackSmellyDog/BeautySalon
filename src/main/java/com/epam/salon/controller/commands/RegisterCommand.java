@@ -9,15 +9,19 @@ import java.io.IOException;
 public class RegisterCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        if ("POST".equalsIgnoreCase(request.getMethod())) {
+            try {
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
 
+                UserService userService = new UserService();
 
-        UserService userService = new UserService();
-        try {
-            userService.register(username, password);
-        } catch (SuchUserIsExistException e) {
-            e.printStackTrace();
+                userService.register(username, password);
+            } catch (SuchUserIsExistException e) {
+                e.printStackTrace();
+            }
+        } else {
+            forward("registration");
         }
     }
 }

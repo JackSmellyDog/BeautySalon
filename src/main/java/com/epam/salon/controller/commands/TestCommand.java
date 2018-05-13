@@ -13,7 +13,7 @@ public class TestCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
         response.setContentType("text/html");
         UserService userService = new UserService();
-        List<Admin> list = userService.getAll();
+        List<Admin> list = userService.getAllAdmins();
 
         PrintWriter writer = response.getWriter();
 

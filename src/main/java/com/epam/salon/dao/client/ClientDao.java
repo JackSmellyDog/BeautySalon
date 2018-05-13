@@ -5,30 +5,40 @@ import com.epam.salon.model.Admin;
 import com.epam.salon.model.Client;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientDao implements IClientDao {
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String BY_USERNAME_QUERY = "SELECT * FROM beauty_clients WHERE login='%s'";
     private static final String INSERT_USER_QUERY = "INSERT INTO beauty_clients (login, password) VALUES (?, ?)";
+    private static final String ALL_USERS_QUERY = "SELECT * FROM beauty_clients";
 
     private static final int LOGIN_COLUMN = 1;
     private static final int PASSWORD_COLUMN = 2;
 
 
     @Override
-    public List<Client> getAll() {
-        return null;
-    }
+    public List<Client> findAll() {
+        List<Client> clients = new ArrayList<>();
 
-    @Override
-    public Client getById(long id) {
-        return null;
-    }
+        try(Connection connection = connectionManager.getConnection();
+            Statement statement = connection.createStatement()
+        ){
+            ResultSet resultSet = statement.executeQuery(ALL_USERS_QUERY);
 
-    @Override
-    public void deleteById(long id) {
+            while (resultSet.next()){
+                clients.add(new Client(
+                        resultSet.getLong("id"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password")
+                ));
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace(); // TODO log4j
+        }
+        return clients;
     }
 
     @Override
@@ -40,15 +50,9 @@ public class ClientDao implements IClientDao {
             preparedStatement.setString(PASSWORD_COLUMN, item.getPassword());
             preparedStatement.executeUpdate();
 
-
         } catch (SQLException e) {
             e.printStackTrace(); // TODO log4j
         }
-    }
-
-    @Override
-    public void update(long id, Client item) {
-
     }
 
     @Override
@@ -63,17 +67,16 @@ public class ClientDao implements IClientDao {
                     username
             ));
 
-            while (resultSet.next()){
+            if (resultSet.next()){
                 client = new Client(
+                        resultSet.getLong("id"),
                         resultSet.getString("login"),
                         resultSet.getString("password")
                 );
             }
-
-            return client;
         } catch (SQLException e) {
             e.printStackTrace(); // TODO log4j
-            return null;
         }
+        return client;
     }
 }
