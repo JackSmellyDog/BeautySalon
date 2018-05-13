@@ -2,6 +2,7 @@ package com.epam.salon.dao.request;
 
 import com.epam.salon.datasource.ConnectionManager;
 import com.epam.salon.model.Request;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +11,8 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class RequestDao implements IRequestDao {
+    private static final Logger LOGGER = Logger.getLogger(RequestDao.class);
+
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String INSERT_REQUEST_QUERY = "INSERT INTO beauty_requests (appointment_time, client_id, master_id) VALUES (?, ?, ?)";
 
@@ -29,7 +32,7 @@ public class RequestDao implements IRequestDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO log4j
+            LOGGER.error(e.getMessage(), e);
         }
     }
 }

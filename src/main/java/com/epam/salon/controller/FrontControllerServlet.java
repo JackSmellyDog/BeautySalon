@@ -2,6 +2,7 @@ package com.epam.salon.controller;
 
 import com.epam.salon.controller.commands.FrontCommand;
 import com.epam.salon.controller.commands.UnknownCommand;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +13,7 @@ import java.io.IOException;
 
 @WebServlet("/app")
 public class FrontControllerServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(FrontControllerServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,6 +35,7 @@ public class FrontControllerServlet extends HttpServlet {
             return (FrontCommand) type.asSubclass(FrontCommand.class).newInstance();
 
         } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
             return new UnknownCommand();
         }
     }

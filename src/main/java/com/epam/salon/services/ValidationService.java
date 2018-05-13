@@ -1,6 +1,9 @@
 package com.epam.salon.services;
 
+import org.apache.log4j.Logger;
+
 public class ValidationService implements IValidationService {
+    private static final Logger LOGGER = Logger.getLogger(ValidationService.class);
     /****
      *  Change to common apache email validation
      * */

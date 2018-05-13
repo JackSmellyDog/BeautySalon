@@ -1,14 +1,16 @@
 package com.epam.salon.dao.client;
 
 import com.epam.salon.datasource.ConnectionManager;
-import com.epam.salon.model.Admin;
 import com.epam.salon.model.Client;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientDao implements IClientDao {
+    private static final Logger LOGGER = Logger.getLogger(ClientDao.class);
+
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String BY_USERNAME_QUERY = "SELECT * FROM beauty_clients WHERE login='%s'";
     private static final String INSERT_USER_QUERY = "INSERT INTO beauty_clients (login, password) VALUES (?, ?)";
@@ -36,7 +38,7 @@ public class ClientDao implements IClientDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO log4j
+            LOGGER.error(e.getMessage(), e);
         }
         return clients;
     }
@@ -51,7 +53,7 @@ public class ClientDao implements IClientDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO log4j
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -75,7 +77,7 @@ public class ClientDao implements IClientDao {
                 );
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO log4j
+            LOGGER.error(e.getMessage(), e);
         }
         return client;
     }

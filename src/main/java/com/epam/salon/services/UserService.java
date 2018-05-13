@@ -10,6 +10,7 @@ import com.epam.salon.model.Admin;
 import com.epam.salon.model.Client;
 import com.epam.salon.model.Master;
 import com.epam.salon.model.User;
+import org.apache.log4j.Logger;
 
 
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.List;
 import static com.epam.salon.dao.DaoFactory.Entity.*;
 
 public class UserService implements IUserService {
+    private static final Logger LOGGER = Logger.getLogger(UserService.class);
+
     private AdminDao adminDao = (AdminDao) DaoFactory.create(ADMIN);
     private MasterDao masterDao = (MasterDao) DaoFactory.create(MASTER);
     private ClientDao clientDao = (ClientDao) DaoFactory.create(CLIENT);

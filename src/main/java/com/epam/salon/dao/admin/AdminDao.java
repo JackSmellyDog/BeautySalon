@@ -2,12 +2,15 @@ package com.epam.salon.dao.admin;
 
 import com.epam.salon.datasource.ConnectionManager;
 import com.epam.salon.model.Admin;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdminDao implements IAdminDao {
+    private static final Logger LOGGER = Logger.getLogger(Admin.class);
+
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String ALL_ADMINS_QUERY = "SELECT * FROM beauty_admins";
     private static final String BY_USERNAME_QUERY = "SELECT * FROM beauty_admins WHERE login='%s'";
@@ -30,7 +33,7 @@ public class AdminDao implements IAdminDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO log4j
+            LOGGER.error(e.getMessage(), e);
         }
 
         return admins;
@@ -62,7 +65,7 @@ public class AdminDao implements IAdminDao {
                 );
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO log4j
+            LOGGER.error(e.getMessage(), e);
         }
         return admin;
     }

@@ -2,12 +2,15 @@ package com.epam.salon.controller.commands;
 
 import com.epam.salon.model.User;
 import com.epam.salon.services.UserService;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class LoginCommand extends FrontCommand {
+    private static final Logger LOGGER = Logger.getLogger(LoginCommand.class);
+
     @Override
     public void process() throws ServletException, IOException {
         try {
@@ -22,6 +25,8 @@ public class LoginCommand extends FrontCommand {
             forward("home");
 
         } catch (Exception e) {
+            LOGGER.warn(e.getMessage(), e);
+
             request.setAttribute("message", "Invalid data");
             forward("login");
         }

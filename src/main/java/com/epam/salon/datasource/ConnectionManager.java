@@ -1,5 +1,7 @@
 package com.epam.salon.datasource;
 
+import org.apache.log4j.Logger;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -7,6 +9,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ConnectionManager {
+    private static final Logger LOGGER = Logger.getLogger(ConnectionManager.class);
+
     private static ConnectionManager instance = new ConnectionManager();
     private DataSource dataSource;
 

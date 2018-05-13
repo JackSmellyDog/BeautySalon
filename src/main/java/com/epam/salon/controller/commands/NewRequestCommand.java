@@ -3,6 +3,7 @@ package com.epam.salon.controller.commands;
 import com.epam.salon.model.Request;
 import com.epam.salon.model.User;
 import com.epam.salon.services.RequestService;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -11,6 +12,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class NewRequestCommand extends FrontCommand {
+    private static final Logger LOGGER = Logger.getLogger(NewRequestCommand.class);
+
     @Override
     public void process() throws ServletException, IOException {
         if ("POST".equalsIgnoreCase(request.getMethod())){

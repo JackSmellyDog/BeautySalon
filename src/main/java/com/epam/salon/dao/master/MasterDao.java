@@ -2,6 +2,7 @@ package com.epam.salon.dao.master;
 
 import com.epam.salon.datasource.ConnectionManager;
 import com.epam.salon.model.Master;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MasterDao implements IMasterDao {
+    private static final Logger LOGGER = Logger.getLogger(MasterDao.class);
+
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String ALL_MASTERS_QUERY = "SELECT * FROM beauty_masters";
     private static final String BY_USERNAME_QUERY = "SELECT * FROM beauty_masters WHERE login='%s'";
@@ -34,7 +37,7 @@ public class MasterDao implements IMasterDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO log4j
+            LOGGER.error(e.getMessage(), e);
         }
 
         return masters;
@@ -68,7 +71,7 @@ public class MasterDao implements IMasterDao {
                 );
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO log4j
+            LOGGER.error(e.getMessage(), e);
         }
         return master;
     }
