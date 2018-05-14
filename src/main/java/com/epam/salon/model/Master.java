@@ -34,6 +34,10 @@ public class Master extends User {
         this.name = name;
     }
 
+    public Master(String login, String password, String name, String description) {
+        this(null, login, password, name, description);
+    }
+
     @Override
     public String toString() {
         return "Master{" +

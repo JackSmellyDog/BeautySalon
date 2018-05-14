@@ -1,5 +1,6 @@
-package com.epam.salon.services;
+package com.epam.salon.services.impl;
 
+import com.epam.salon.services.IEmailService;
 import org.apache.log4j.Logger;
 
 public class EmailService implements IEmailService {

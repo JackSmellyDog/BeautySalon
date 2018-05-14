@@ -44,6 +44,16 @@ public class ClientDao implements IClientDao {
     }
 
     @Override
+    public boolean deleteById(Long id) {
+        return false;
+    }
+
+    @Override
+    public boolean findById(Long id) {
+        return false;
+    }
+
+    @Override
     public void insert(Client item) {
         try(Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_QUERY)

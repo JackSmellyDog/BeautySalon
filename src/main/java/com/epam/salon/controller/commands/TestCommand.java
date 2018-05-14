@@ -1,7 +1,7 @@
 package com.epam.salon.controller.commands;
 
 import com.epam.salon.model.Admin;
-import com.epam.salon.services.UserService;
+import com.epam.salon.services.impl.UserService;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -13,7 +13,7 @@ public class TestCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
         response.setContentType("text/html");
         UserService userService = new UserService();
-        List<Admin> list = userService.getAllAdmins();
+        List<Admin> list = userService.findAllAdmins();
 
         PrintWriter writer = response.getWriter();
 

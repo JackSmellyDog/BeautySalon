@@ -2,7 +2,7 @@ package com.epam.salon.controller.commands;
 
 import com.epam.salon.model.Request;
 import com.epam.salon.model.User;
-import com.epam.salon.services.RequestService;
+import com.epam.salon.services.impl.RequestService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;

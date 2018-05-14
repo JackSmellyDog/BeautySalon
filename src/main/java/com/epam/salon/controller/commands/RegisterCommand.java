@@ -1,7 +1,7 @@
 package com.epam.salon.controller.commands;
 
 import com.epam.salon.exceptions.SuchUserIsExistException;
-import com.epam.salon.services.UserService;
+import com.epam.salon.services.impl.UserService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;

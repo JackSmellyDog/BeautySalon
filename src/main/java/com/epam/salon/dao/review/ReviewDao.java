@@ -7,13 +7,23 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
-public class ReviewDao implements IRequestDao {
+public class ReviewDao implements IRequestDao{
     private static final Logger LOGGER = Logger.getLogger(ReviewDao.class);
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
 
     @Override
     public List<Request> findAll() {
         return null;
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        return false;
+    }
+
+    @Override
+    public boolean findById(Long id) {
+        return false;
     }
 
     @Override

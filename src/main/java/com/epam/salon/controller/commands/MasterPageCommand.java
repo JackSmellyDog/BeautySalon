@@ -1,6 +1,6 @@
 package com.epam.salon.controller.commands;
 
-import com.epam.salon.services.UserService;
+import com.epam.salon.services.impl.UserService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -16,7 +16,7 @@ public class MasterPageCommand extends FrontCommand {
 
         if (session.getAttribute("masters") == null) {
             UserService userService = new UserService();
-            session.setAttribute("masters", userService.getAllMasters());
+            session.setAttribute("masters", userService.findAllMasters());
         }
         forward("masters");
     }

@@ -22,6 +22,16 @@ public class RequestDao implements IRequestDao {
     }
 
     @Override
+    public boolean deleteById(Long id) {
+        return false;
+    }
+
+    @Override
+    public boolean findById(Long id) {
+        return false;
+    }
+
+    @Override
     public void insert(Request item) {
         try(Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_REQUEST_QUERY)

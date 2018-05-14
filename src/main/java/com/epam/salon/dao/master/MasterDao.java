@@ -4,10 +4,7 @@ import com.epam.salon.datasource.ConnectionManager;
 import com.epam.salon.model.Master;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +14,14 @@ public class MasterDao implements IMasterDao {
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String ALL_MASTERS_QUERY = "SELECT * FROM beauty_masters";
     private static final String BY_USERNAME_QUERY = "SELECT * FROM beauty_masters WHERE login='%s'";
+    private static final String DELETE_BY_ID_QUERY = "DELETE FROM beauty_masters WHERE id=?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM beauty_masters WHERE id=?";
+    private static final String INSERT_MASTER_QUERY = "INSERT INTO beauty_masters (login, password, name, description) VALUES (?, ?, ?, ?)";
 
+    private static final int LOGIN_COLUMN = 1;
+    private static final int PASSWORD_COLUMN = 2;
+    private static final int NAME_COLUMN = 3;
+    private static final int DESCRIPTION_COLUMN = 4;
     @Override
     public List<Master> findAll() {
         List<Master> masters = new ArrayList<>();
@@ -43,10 +47,42 @@ public class MasterDao implements IMasterDao {
         return masters;
     }
 
+    @Override
+    public boolean deleteById(Long id) {
+        try(Connection connection = connectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY)
+        ){
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+
+        // TODO
+        return false;
+    }
+
+    @Override
+    public boolean findById(Long id) {
+        return false;
+    }
+
 
     @Override
     public void insert(Master item) {
+        try(Connection connection = connectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_MASTER_QUERY)
+        ){
+            preparedStatement.setString(LOGIN_COLUMN, item.getLogin());
+            preparedStatement.setString(PASSWORD_COLUMN, item.getPassword());
+            preparedStatement.setString(NAME_COLUMN, item.getName());
+            preparedStatement.setString(DESCRIPTION_COLUMN, item.getDescription());
+            preparedStatement.executeUpdate();
 
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
     }
 
     @Override

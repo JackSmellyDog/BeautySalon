@@ -1,4 +1,4 @@
-package com.epam.salon.services;
+package com.epam.salon.services.impl;
 
 import com.epam.salon.dao.DaoFactory;
 import com.epam.salon.dao.admin.AdminDao;
@@ -10,6 +10,7 @@ import com.epam.salon.model.Admin;
 import com.epam.salon.model.Client;
 import com.epam.salon.model.Master;
 import com.epam.salon.model.User;
+import com.epam.salon.services.IUserService;
 import org.apache.log4j.Logger;
 
 
@@ -27,7 +28,7 @@ public class UserService implements IUserService {
     private SecurityService securityService = new SecurityService();
     private ValidationService validationService = new ValidationService();
 
-
+    @Override
     public User findByUsername(String username) {
         User user = adminDao.findByUsername(username);
         if (user != null) return user;
@@ -38,7 +39,7 @@ public class UserService implements IUserService {
         return clientDao.findByUsername(username);
     }
 
-
+    @Override
     public User login(String login, String password) {
         if (!validationService.isUsernameValid(login) || !validationService.isPasswordValid(password))
             throw new InvalidUserDataException("Invalid data while loggin in");
@@ -51,7 +52,45 @@ public class UserService implements IUserService {
         return user;
     }
 
+    @Override
     public void register(String login, String password, String confirmationPassword) throws SuchUserIsExistException {
+        validate(login, password, confirmationPassword);
+        Client client = new Client(login, securityService.encryptPassword(password));
+        clientDao.insert(client);
+    }
+
+    @Override
+    public void addMaster(String login, String password, String confirmationPassword, String name, String description)
+            throws SuchUserIsExistException {
+        validate(login, password, confirmationPassword);
+        masterDao.insert(new Master(login, password, name, description));
+    }
+
+    @Override
+    public boolean deleteMaster(Long id) {
+        return masterDao.deleteById(id);
+    }
+
+    @Override
+    public List<Admin> findAllAdmins() {
+        return adminDao.findAll();
+    }
+
+    @Override
+    public List<Client> findAllClients() {
+        return clientDao.findAll();
+    }
+
+    @Override
+    public List<Master> findAllMasters() {
+        return masterDao.findAll();
+    }
+
+    private boolean isAlreadyExist(String username) {
+        return findByUsername(username) != null;
+    }
+
+    private void validate(String login, String password, String confirmationPassword) throws SuchUserIsExistException {
         if (!validationService.isUsernameValid(login))
             throw new InvalidUserDataException("Invalid username");
 
@@ -63,24 +102,6 @@ public class UserService implements IUserService {
 
         if (isAlreadyExist(login))
             throw new SuchUserIsExistException();
-
-        Client client = new Client(login, securityService.encryptPassword(password));
-        clientDao.insert(client);
     }
 
-    private boolean isAlreadyExist(String username) {
-        return findByUsername(username) != null;
-    }
-
-    public List<Admin> getAllAdmins() {
-        return adminDao.findAll();
-    }
-
-    public List<Client> getAllClients() {
-        return clientDao.findAll();
-    }
-
-    public List<Master> getAllMasters() {
-        return masterDao.findAll();
-    }
 }

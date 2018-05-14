@@ -40,6 +40,16 @@ public class AdminDao implements IAdminDao {
     }
 
     @Override
+    public boolean deleteById(Long id) {
+        return false;
+    }
+
+    @Override
+    public boolean findById(Long id) {
+        return false;
+    }
+
+    @Override
     public void insert(Admin item) {
 
     }

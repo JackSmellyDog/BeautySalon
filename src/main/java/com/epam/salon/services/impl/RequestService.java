@@ -1,8 +1,9 @@
-package com.epam.salon.services;
+package com.epam.salon.services.impl;
 
 import com.epam.salon.dao.DaoFactory;
 import com.epam.salon.dao.request.IRequestDao;
 import com.epam.salon.model.Request;
+import com.epam.salon.services.IRequestService;
 import org.apache.log4j.Logger;
 
 public class RequestService implements IRequestService {
