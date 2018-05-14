@@ -10,7 +10,7 @@
 
     <filter>
         <filter-name>TestFilter</filter-name>
-        <filter-class>com.epam.salon.filter.TestFilter</filter-class>
+        <filter-class>com.kpi.salon.filter.TestFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>TestFilter</filter-name>
