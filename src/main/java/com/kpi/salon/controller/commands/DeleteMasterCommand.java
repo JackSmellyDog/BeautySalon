@@ -6,12 +6,12 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 
 public class DeleteMasterCommand extends FrontCommand {
-    private UserService userService = new UserService();
 
     @Override
     public void process() throws ServletException, IOException {
         //TODO validation
         Long id = Long.parseLong(request.getParameter("id"));
+        UserService userService = new UserService();
         userService.deleteMaster(id);
 
         request.getSession().setAttribute("masters", userService.findAllMasters());

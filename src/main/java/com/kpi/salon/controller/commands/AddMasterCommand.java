@@ -10,8 +10,6 @@ import java.io.IOException;
 public class AddMasterCommand extends FrontCommand {
     private static final Logger LOGGER = Logger.getLogger(AddMasterCommand.class);
 
-    private UserService userService = new UserService();
-
     @Override
     public void process() throws ServletException, IOException {
         try {
@@ -22,6 +20,7 @@ public class AddMasterCommand extends FrontCommand {
             String description = request.getParameter("description");
 
             // add boolean
+            UserService userService = new UserService();
             userService.addMaster(username, password, confirmPassword, name, description);
             request.getSession().setAttribute("masters", userService.findAllMasters());
             forward("masters");

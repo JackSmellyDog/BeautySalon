@@ -7,61 +7,64 @@ import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.SimpleEmail;
 import org.apache.log4j.Logger;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
 
 
 public class EmailService implements IEmailService {
     private static final Logger LOGGER = Logger.getLogger(EmailService.class);
-    private static final String HOST = "smtp.gmail.com";
-    private static final int PORT = 465;
-    private static final boolean SSL_FLAG = true;
 
+    private String user;
+    private String password;
+
+    private String host;
+    private int port;
+    private boolean sslFlag;
+
+    public EmailService() {
+        try {
+            Properties properties = new Properties();
+            properties.load(new FileReader(loadResources()));
+
+            user = properties.getProperty("user");
+            password = properties.getProperty("password");
+
+            host = properties.getProperty("host");
+            port = Integer.parseInt(properties.getProperty("port"));
+            sslFlag = Boolean.parseBoolean(properties.getProperty("ssl.flag"));
+
+        } catch (IOException e) {
+           LOGGER.error(e.getMessage(), e);
+        }
+    }
 
     @Override
-    public boolean send() {
-        String userName = "************";
-
-        String password = "*************";
-
-        String fromAddress="**********";
-
-        String toAddress =  "****************";
-
+    public void send(String to) {
         String subject = "Test Mail";
-
         String message = "Hello from Apache Mail";
 
-
-
         try {
-
             Email email = new SimpleEmail();
+            email.setHostName(host);
+            email.setSmtpPort(port);
+            email.setAuthenticator(new DefaultAuthenticator(user, password));
+            email.setSSLOnConnect(sslFlag);
 
-            email.setHostName(HOST);
-
-            email.setSmtpPort(PORT);
-
-            email.setAuthenticator(new DefaultAuthenticator(userName, password));
-
-            email.setSSLOnConnect(SSL_FLAG);
-
-            email.setFrom(fromAddress);
-
+            email.setFrom(user);
             email.setSubject(subject);
-
             email.setMsg(message);
-
-            email.addTo(toAddress);
-
+            email.addTo(to);
             email.send();
 
-            return true;
-
-        }catch(Exception ex){
-            System.out.println("Unable to send email");
-
-            System.out.println(ex);
-            return false;
+        } catch(Exception e){
+            LOGGER.error("Unable to send email", e);
         }
+    }
 
+    private File loadResources() {
+        ClassLoader classLoader = getClass().getClassLoader();
+        return new File(classLoader.getResource("email.properties").getFile());
     }
 }

@@ -1,5 +1,5 @@
 package com.kpi.salon.services;
 
 public interface IEmailService {
-    boolean send();
+    void send(String to);
 }
