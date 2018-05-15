@@ -1,18 +1,17 @@
 <%--
   Created by IntelliJ IDEA.
   User: andrii
-  Date: 24.04.18
-  Time: 2:26
+  Date: 15.05.18
+  Time: 1:00
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Unknown</title>
+    <title>Access forbidden</title>
     <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
 </head>
-<body>
-    I'm an unknown page!
-    <img src="../../resources/img/404.jpg" height="355" width="500" class="pin-to-center">
+<body class="freaking-ping">
+    <img src="../../resources/img/403.png" class="pin-to-center">
 </body>
 </html>

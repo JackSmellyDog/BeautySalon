@@ -11,8 +11,8 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class NewRequestCommand extends FrontCommand {
-    private static final Logger LOGGER = Logger.getLogger(NewRequestCommand.class);
+public class AddRequestCommand extends FrontCommand {
+    private static final Logger LOGGER = Logger.getLogger(AddRequestCommand.class);
 
     @Override
     public void process() throws ServletException, IOException {

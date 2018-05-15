@@ -22,6 +22,11 @@ public class LoginCommand extends FrontCommand {
 
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
+
+            String role = user.getClass().getSimpleName();
+            session.setAttribute("role", role);
+
+            LOGGER.info(String.format("User %s has logged in", user.getLogin()));
             forward("home");
 
         } catch (Exception e) {

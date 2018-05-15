@@ -14,7 +14,7 @@
 <body>
     <fieldset>
         <legend>New Request</legend>
-        <form method="post" action="/app?command=NewRequest">
+        <form method="post" action="/app?command=AddRequest">
             <table cellpadding="2" cellspacing="2">
                 <tr>
                     <td>Master: </td>

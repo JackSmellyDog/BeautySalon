@@ -1,5 +1,6 @@
 package com.kpi.salon.controller.commands;
 
+import com.kpi.salon.model.User;
 import com.kpi.salon.services.impl.UserService;
 import org.apache.log4j.Logger;
 
@@ -13,11 +14,22 @@ public class MasterPageCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         HttpSession session = request.getSession();
+        String role = (String) session.getAttribute("role");
 
-        if (session.getAttribute("masters") == null) {
-            UserService userService = new UserService();
-            session.setAttribute("masters", userService.findAllMasters());
+        if ("Admin".equals(role)) {
+            if (session.getAttribute("masters") == null) {
+                UserService userService = new UserService();
+                session.setAttribute("masters", userService.findAllMasters());
+            }
+
+            forward("masters");
+
+        } else {
+            User user = (User) session.getAttribute("user");
+            String username = (user == null)? "Anonymous" : user.getLogin();
+
+            LOGGER.warn(String.format("%s has no rights to be here", username));
+            forward("403");
         }
-        forward("masters");
     }
 }

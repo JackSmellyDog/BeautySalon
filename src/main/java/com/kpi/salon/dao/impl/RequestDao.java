@@ -46,4 +46,9 @@ public class RequestDao implements IRequestDao {
             LOGGER.error(e.getMessage(), e);
         }
     }
+
+    @Override
+    public List<Request> findByMaster(Long masterId) {
+        return null;
+    }
 }
