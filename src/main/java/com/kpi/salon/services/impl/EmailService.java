@@ -41,10 +41,7 @@ public class EmailService implements IEmailService {
     }
 
     @Override
-    public void send(String to) {
-        String subject = "Test Mail";
-        String message = "Hello from Apache Mail";
-
+    public void send(String subject, String message, String to) {
         try {
             Email email = new SimpleEmail();
             email.setHostName(host);

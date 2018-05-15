@@ -20,6 +20,8 @@ public class LoginCommand extends FrontCommand {
             UserService userService = new UserService();
             User user = userService.login(username, password);
 
+            // TODO code-verification for Admins
+
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
 

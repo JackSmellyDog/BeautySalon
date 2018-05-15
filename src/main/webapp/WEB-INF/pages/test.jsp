@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Fuck you!</h2>
+<h2>Test page!</h2>
 </body>
 </html>
