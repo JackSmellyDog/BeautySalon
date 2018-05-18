@@ -1,12 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: andrii
-  Date: 15.05.18
-  Time: 0:16
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="ct" uri="/WEB-INF/tld/year.tld" %>
+<%@ taglib prefix="ct" uri="http://localhost:8080/" %>
 
-<ct:year></ct:year>
-<p>I'm footer</p>
+<div class="my-footer">
+    <ct:year></ct:year>
+    <p>I'm footer</p>
+</div>
+

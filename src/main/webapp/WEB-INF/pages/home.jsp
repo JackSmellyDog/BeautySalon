@@ -8,19 +8,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
+<head class="">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+    <script src="resources/js/jquery-3.3.1.min.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
 </head>
+<body>
 
 <jsp:include page="header.jsp"/>
 
-<body>
-    <p>Wow! You are logged in!</p><br>
-    <a href="/app?command=MasterPage">Masters</a><br>
-    <a href="/app?command=RequestPage">Requests</a><br>
-    <a href="/app?command=AddRequest">New Request</a><br>
+    <p>Wow! You are logged in!</p>
 
 <jsp:include page="footer.jsp"/>
+
 
 </body>
 </html>

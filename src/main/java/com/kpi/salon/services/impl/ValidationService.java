@@ -5,6 +5,9 @@ import org.apache.log4j.Logger;
 
 public class ValidationService implements IValidationService {
     private static final Logger LOGGER = Logger.getLogger(ValidationService.class);
+
+    private static final int CODE_LENGTH = 4;
+    private static final int MAX_DIGIT = 9;
     /****
      *  Change to common apache email validation
      * */
@@ -24,5 +27,16 @@ public class ValidationService implements IValidationService {
     @Override
     public boolean isConfirmationPassMatched(String password, String confirmPassword) {
         return password != null && password.equals(confirmPassword) ;
+    }
+
+    @Override
+    public String validationCode() {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < CODE_LENGTH; i++ ) {
+            builder.append((int) (Math.random() * MAX_DIGIT));
+        }
+
+        return builder.toString();
     }
 }

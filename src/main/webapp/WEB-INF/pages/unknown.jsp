@@ -9,10 +9,9 @@
 <html>
 <head>
     <title>Unknown</title>
-    <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/style.css">
 </head>
-<body>
-    I'm an unknown page!
-    <img src="../../resources/img/404.jpg" height="355" width="500" class="pin-to-center">
+<body class="freaking-ping">
+    <img src="resources/img/404.jpg" height="355" width="500" class="pin-to-center">
 </body>
 </html>

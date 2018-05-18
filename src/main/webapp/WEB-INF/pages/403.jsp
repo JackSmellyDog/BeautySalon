@@ -9,9 +9,9 @@
 <html>
 <head>
     <title>Access forbidden</title>
-    <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/style.css">
 </head>
 <body class="freaking-ping">
-    <img src="../../resources/img/403.png" class="pin-to-center">
+    <img src="resources/img/403.png" class="pin-to-center">
 </body>
 </html>

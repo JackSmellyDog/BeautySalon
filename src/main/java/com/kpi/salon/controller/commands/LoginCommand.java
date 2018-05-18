@@ -1,7 +1,10 @@
 package com.kpi.salon.controller.commands;
 
+import com.kpi.salon.model.Admin;
 import com.kpi.salon.model.User;
+import com.kpi.salon.services.impl.SmsService;
 import com.kpi.salon.services.impl.UserService;
+import com.kpi.salon.services.impl.ValidationService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -13,28 +16,47 @@ public class LoginCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
-        try {
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
+        if ("POST".equalsIgnoreCase(request.getMethod())) {
+            try {
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                HttpSession session = request.getSession();
 
-            UserService userService = new UserService();
-            User user = userService.login(username, password);
+                UserService userService = new UserService();
+                User user = userService.login(username, password);
 
-            // TODO code-verification for Admins
+                String role = user.getClass().getSimpleName();
 
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
+                // TODO uncomment this method
+                if ("Admin".equals(role)) {
+                    Admin admin = (Admin) user;
 
-            String role = user.getClass().getSimpleName();
-            session.setAttribute("role", role);
+//                ValidationService validationService = new ValidationService();
+//                String validationCode = validationService.validationCode();
+//
+//                session.setAttribute("validationCode", validationCode);
+                    session.setAttribute("unconfirmedUser", user);
+//
+//                SmsService smsService = new SmsService();
+//                smsService.sendSms(validationCode, admin.getPhone());
 
-            LOGGER.info(String.format("User %s has logged in", user.getLogin()));
-            forward("home");
+                    forward("code");
 
-        } catch (Exception e) {
-            LOGGER.warn(e.getMessage(), e);
+                } else {
 
-            request.setAttribute("message", "Invalid data");
+                    session.setAttribute("user", user);
+                    session.setAttribute("role", role);
+
+                    LOGGER.info(String.format("User %s has logged in", user.getLogin()));
+                    forward("home");
+                }
+            } catch (Exception e) {
+                LOGGER.warn(e.getMessage(), e);
+
+                request.setAttribute("message", "Invalid data");
+                forward("login");
+            }
+        } else {
             forward("login");
         }
     }

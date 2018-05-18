@@ -45,14 +45,14 @@ public class UserService implements IUserService {
         User user = findByUsername(login);
 
         if (user == null || !securityService.checkPassword(password, user.getPassword()))
-            throw new InvalidUserDataException("Can't log in");
+            throw new InvalidUserDataException("Invalid password");
 
         return user;
     }
 
     @Override
     public void register(String login, String password, String confirmationPassword) throws SuchUserIsExistException {
-        validate(login, password, confirmationPassword);
+        validateRegistration(login, password, confirmationPassword);
         Client client = new Client(login, securityService.encryptPassword(password));
         clientDao.insert(client);
     }
@@ -60,7 +60,7 @@ public class UserService implements IUserService {
     @Override
     public void addMaster(String login, String password, String confirmationPassword, String name, String description)
             throws SuchUserIsExistException {
-        validate(login, password, confirmationPassword);
+        validateRegistration(login, password, confirmationPassword);
         masterDao.insert(new Master(login, password, name, description));
     }
 
@@ -88,7 +88,7 @@ public class UserService implements IUserService {
         return findByUsername(username) != null;
     }
 
-    private void validate(String login, String password, String confirmationPassword) throws SuchUserIsExistException {
+    private void validateRegistration(String login, String password, String confirmationPassword) throws SuchUserIsExistException {
         if (!validationService.isUsernameValid(login))
             throw new InvalidUserDataException("Invalid username");
 

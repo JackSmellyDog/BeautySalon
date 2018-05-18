@@ -10,8 +10,14 @@
 <html>
 <head>
     <title>Requests</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+    <script src="resources/js/jquery-3.3.1.min.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
 </head>
 <body>
+<jsp:include page="header.jsp"/>
+<jsp:include page="footer.jsp"/>
 
 
 </body>

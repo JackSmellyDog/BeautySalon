@@ -10,8 +10,14 @@
 <html>
 <head>
     <title>Masters</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+    <script src="resources/js/jquery-3.3.1.min.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
 </head>
 <body>
+    <jsp:include page="header.jsp"/>
+
     <table cellpadding="2" cellspacing="2" >
         <c:forEach var="master" items="${masters}">
             <tr>
@@ -60,6 +66,6 @@
             </table>
         </form>
     </fieldset>
-
+    <jsp:include page="footer.jsp"/>
 </body>
 </html>

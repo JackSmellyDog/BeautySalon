@@ -17,12 +17,16 @@ public class TestFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpSession session = req.getSession();
 
-        if (session.getAttribute("username") == null) {
-            req.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(servletRequest, servletResponse);
-        } else {
-            req.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(servletRequest, servletResponse);
-            //filterChain.doFilter(servletRequest, servletResponse);
-        }
+//        if (session.getAttribute("user") == null) {
+//
+//            if (session.getAttribute("unconfirmedUser") == null) {
+//                req.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(servletRequest, servletResponse);
+//            } else {
+//                req.getRequestDispatcher("/WEB-INF/pages/code.jsp").forward(servletRequest, servletResponse);
+//            }
+//        }
+
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

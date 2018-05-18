@@ -9,23 +9,29 @@
 <html>
 <head>
     <title>Code</title>
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+    <script src="resources/js/jquery-3.3.1.min.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
 </head>
-<body>
-<fieldset>
-    <legend>Login</legend>
-    ${message} <br>
+<body class="freaking-ping">
+<div class="pin-to-center">
     <form method="post" action="/app?command=Code">
-        <table cellpadding="2" cellspacing="2">
-            <tr>
-                <td>Code: </td>
-                <td><input type="text" name="code"></td>
-            </tr>
-            <tr>
-                <td>&nbsp; </td>
-                <td><input type="submit" value="Send"></td>
-            </tr>
-        </table>
+
+        <div class="form-group">
+            <label for="code">Code: </label>
+            <input type="text" name="code" id="code" class="form-control" placeholder="0000">
+        </div>
+
+        <button type="submit" class="btn btn-info">Send</button>
+
     </form>
-</fieldset>
+    <div>${message}</div>
+
+    <div class="text-center">
+        <a href="/app?command=Register" >Registration</a>
+    </div>
+</div>
 </body>
 </html>

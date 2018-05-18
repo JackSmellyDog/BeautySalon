@@ -10,32 +10,37 @@
 <html>
 <head>
     <title>Login page</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+    <script src="resources/js/jquery-3.3.1.min.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
 </head>
-<body>
-<fieldset>
-    <legend>Login</legend>
-    ${message} <br>
+<body class="freaking-ping">
+<div class="pin-to-center">
     <form method="post" action="/app?command=Login">
-        <table cellpadding="2" cellspacing="2">
-            <tr>
-                <td>Username: </td>
-                <td><input type="text" name="username"></td>
-            </tr>
-            <tr>
-                <td>Password: </td>
-                <td><input type="password" name="password"></td>
-            </tr>
-            <tr>
-                <td>&nbsp; </td>
-                <td><input type="submit" value="Login"></td>
-            </tr>
-        </table>
+        <div class="form-group">
+            <label for="username">Username: </label>
+            <input type="text" name="username" id="username" class="form-control" placeholder="example@example.com">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="password">
+        </div>
+
+        <button type="submit" class="btn btn-info">Log in</button>
     </form>
-</fieldset>
+    <div>${message}</div>
+
+    <div class="text-center">
+        <a href="/app?command=Register" >Registration</a>
+    </div>
+
+</div>
 
 <br>
 
-<a href="/app?command=Register">Registration</a>
+
 
 
 </body>

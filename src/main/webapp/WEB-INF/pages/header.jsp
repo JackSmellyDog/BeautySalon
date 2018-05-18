@@ -1,10 +1,32 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: andrii
-  Date: 15.05.18
-  Time: 0:13
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<a href="/app?command=Logout">Log out</a>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Beauty Salon</a>
+        </div>
+        <ul class="nav navbar-nav navbar-left">
+            <li class="active"><a href="/app?command=HomePage">Home</a></li>
+            <li><a href="/app?command=MasterPage">Masters</a></li>
+            <li><a href="/app?command=RequestPage">Requests</a></li>
+            <li><a href="/app?command=AddRequest">New Request</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <c:choose>
+                <c:when test="${user != null}">
+                    <li><a href="/app?command=Logout">Log out</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li><a href="/app?command=Login">Log in</a></li>
+                    <li><a href="/app?command=Register">Sign in</a></li>
+                </c:otherwise>
+            </c:choose>
+        </ul>
+    </div>
+</nav>
+
+
+
+
