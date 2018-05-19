@@ -3,9 +3,11 @@ package com.kpi.salon.controller.commands;
 import com.kpi.salon.model.Request;
 import com.kpi.salon.model.User;
 import com.kpi.salon.services.impl.RequestService;
+import com.kpi.salon.services.impl.UserService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
@@ -16,13 +18,16 @@ public class AddRequestCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        UserService userService = new UserService();
+
         if ("POST".equalsIgnoreCase(request.getMethod())){
 
             response.setContentType("text/html");
 
             RequestService requestService = new RequestService();
 
-            User user = (User) request.getSession().getAttribute("user");
+            User user = (User) session.getAttribute("user");
             Long clientId = user.getId();
 
             String masterId = request.getParameter("master_id");
@@ -30,8 +35,10 @@ public class AddRequestCommand extends FrontCommand {
             String date = request.getParameter("date");
             String time = request.getParameter("time");
 
+            System.out.println(date);
+
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            LocalDateTime dateTime = LocalDateTime.parse(String.format("%s %s", date, time), formatter);
+            LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
 
             //2018-05-16
             //15:03
@@ -57,6 +64,9 @@ public class AddRequestCommand extends FrontCommand {
 
 
         } else {
+            if (session.getAttribute("masters") == null) {
+                session.setAttribute("masters", userService.findAllMasters());
+            }
             forward("newrequest");
         }
     }

@@ -55,16 +55,18 @@ public class ClientDao implements IClientDao {
     }
 
     @Override
-    public void insert(Client item) {
+    public boolean insert(Client item) {
         try(Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_QUERY)
         ){
             preparedStatement.setString(LOGIN_COLUMN, item.getLogin());
             preparedStatement.setString(PASSWORD_COLUMN, item.getPassword());
             preparedStatement.executeUpdate();
+            return true;
 
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
+            return false;
         }
     }
 

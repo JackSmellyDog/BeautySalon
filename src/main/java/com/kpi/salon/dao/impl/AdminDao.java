@@ -42,7 +42,7 @@ public class AdminDao implements IAdminDao {
 
     @Override
     public boolean deleteById(Long id) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -51,8 +51,8 @@ public class AdminDao implements IAdminDao {
     }
 
     @Override
-    public void insert(Admin item) {
-
+    public boolean insert(Admin item) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

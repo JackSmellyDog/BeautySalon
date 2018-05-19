@@ -9,7 +9,11 @@
         <ul class="nav navbar-nav navbar-left">
             <li class="active"><a href="/app?command=HomePage">Home</a></li>
             <li><a href="/app?command=MasterPage">Masters</a></li>
-            <li><a href="/app?command=RequestPage">Requests</a></li>
+
+            <c:if test="${role != null && role != 'Client'}">
+                <li><a href="/app?command=RequestPage">Requests</a></li>
+            </c:if>
+
             <li><a href="/app?command=AddRequest">New Request</a></li>
         </ul>
 

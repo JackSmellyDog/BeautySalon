@@ -1,6 +1,7 @@
 package com.kpi.salon.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Request {
     private Long id;
@@ -49,5 +50,20 @@ public class Request {
 
     public Request(LocalDateTime date, Long clientId, Long masterId) {
         this(null, date, clientId, masterId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Request request = (Request) o;
+        return Objects.equals(getId(), request.getId()) &&
+                Objects.equals(getClientId(), request.getClientId()) &&
+                Objects.equals(getMasterId(), request.getMasterId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getClientId(), getMasterId());
     }
 }

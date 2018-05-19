@@ -33,7 +33,7 @@ public class RequestDao implements IRequestDao {
     }
 
     @Override
-    public void insert(Request item) {
+    public boolean insert(Request item) {
         try(Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_REQUEST_QUERY)
         ){
@@ -41,9 +41,11 @@ public class RequestDao implements IRequestDao {
             preparedStatement.setLong(2, item.getClientId());
             preparedStatement.setLong(3, item.getMasterId());
             preparedStatement.executeUpdate();
+            return true;
 
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
+            return false;
         }
     }
 

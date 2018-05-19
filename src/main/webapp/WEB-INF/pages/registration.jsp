@@ -16,31 +16,29 @@
     <script src="resources/js/jquery-3.3.1.min.js"></script>
     <script src="resources/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body class="freaking-ping">
 
-<fieldset>
-    <legend>Registration</legend>
-    ${message} <br>
+<div class="pin-to-center">
     <form method="post" action="/app?command=Register">
-        <table cellpadding="2" cellspacing="2">
-            <tr>
-                <td>Username: </td>
-                <td><input type="text" name="username"></td>
-            </tr>
-            <tr>
-                <td>Password: </td>
-                <td><input type="password" name="password"></td>
-            </tr>
-            <tr>
-                <td>Confirm password: </td>
-                <td><input type="password" name="confirmPassword"></td>
-            </tr>
-            <tr>
-                <td>&nbsp; </td>
-                <td><input type="submit" value="Register"></td>
-            </tr>
-        </table>
+        <div class="form-group">
+            <label for="username">Username: </label>
+            <input type="text" name="username" id="username" class="form-control" placeholder="example@example.com">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Confirm password: </label>
+            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Confirmation Password">
+        </div>
+
+        <button type="submit" class="btn btn-info">Sign in</button>
     </form>
-</fieldset>
+    <div>${message}</div>
+</div>
+
 </body>
 </html>

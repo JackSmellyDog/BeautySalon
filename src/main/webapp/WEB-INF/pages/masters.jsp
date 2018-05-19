@@ -18,54 +18,79 @@
 <body>
     <jsp:include page="header.jsp"/>
 
-    <table cellpadding="2" cellspacing="2" >
-        <c:forEach var="master" items="${masters}">
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>${master.name}</td>
-                <td>${master.login}</td>
-                <td>${master.description}</td>
-                <td><a href="#">Оформить стрижку</a></td>
-                <td><a href="/app?command=DeleteMaster&id=${master.id}">X</a></td>
+                <th>Name</th>
+                <th>Login</th>
+                <th>Description</th>
+                <c:if test="${role == 'Client'}">
+                    <th>Order</th>
+                </c:if>
+
+                <c:if test="${role == 'Admin'}">
+                    <th>Delete</th>
+                </c:if>
             </tr>
-        </c:forEach>
+        </thead>
+        <tbody>
+            <c:forEach var="master" items="${masters}">
+                <tr>
+                    <td>${master.name}</td>
+                    <td>${master.login}</td>
+                    <td>${master.description}</td>
+
+                    <c:if test="${role == 'Client'}">
+                        <td><a href="/app?command=AddRequest" >Make order</a></td>
+                    </c:if>
+
+                    <c:if test="${role == 'Admin'}">
+                        <td><a href="/app?command=DeleteMaster&id=${master.id}">X</a></td>
+                    </c:if>
+                </tr>
+            </c:forEach>
+
+        </tbody>
     </table>
 
     <br>
     <br>
 
-    <fieldset>
-        <legend>Add master</legend>
-        <form method="post" action="/app?command=AddMaster">
-            <table cellpadding="2" cellspacing="2">
-                <tr>
-                    <%--Should add type - email--%>
-                    <td>Username:</td>
-                    <td><input type="text" name="username"></td>
-                </tr>
-                <tr>
-                    <td>Password: </td>
-                    <td><input type="password" name="password"></td>
-                </tr>
-                <tr>
-                    <td>Confirm password: </td>
-                    <td><input type="password" name="confirmPassword"></td>
-                </tr>
+    <c:if test="${role == 'Admin'}">
 
-                <tr>
-                    <td>Last & First Name: </td>
-                    <td><input type="text" name="last_first_name"></td>
-                </tr>
-                <tr>
-                    <td>Description: </td>
-                    <td><textarea rows="5" name="description"></textarea></td>
-                </tr>
-                <tr>
-                    <td>&nbsp; </td>
-                    <td><input type="submit" value="Add"></td>
-                </tr>
-            </table>
-        </form>
-    </fieldset>
+        <div>
+            <form method="post" action="/app?command=AddMaster">
+                <div class="form-group">
+                    <label for="username">Username: </label>
+                    <input type="email" name="username" id="username" class="form-control" placeholder="example@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password: </label>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="password">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Confirm password: </label>
+                    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Confirmation Password">
+                </div>
+
+                <div class="form-group">
+                    <label for="last_first_name">Last & First Name: </label>
+                    <input type="text" name="last_first_name" id="last_first_name" class="form-control" placeholder="Ivan Ivanov">
+                </div>
+
+                <div class="form-group">
+                    <label>Short information: </label>
+                    <textarea name="description" id="description" class="form-control" rows="5"></textarea>
+                </div>
+                <button type="submit" class="btn btn-info">Add</button>
+            </form>
+            <div>${message}</div>
+        </div>
+
+    </c:if>
+
     <jsp:include page="footer.jsp"/>
 </body>
 </html>

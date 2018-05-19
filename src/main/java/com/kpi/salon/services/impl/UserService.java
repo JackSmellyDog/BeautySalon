@@ -51,17 +51,17 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void register(String login, String password, String confirmationPassword) throws SuchUserIsExistException {
+    public boolean register(String login, String password, String confirmationPassword) throws SuchUserIsExistException {
         validateRegistration(login, password, confirmationPassword);
         Client client = new Client(login, securityService.encryptPassword(password));
-        clientDao.insert(client);
+        return clientDao.insert(client);
     }
 
     @Override
-    public void addMaster(String login, String password, String confirmationPassword, String name, String description)
+    public boolean addMaster(String login, String password, String confirmationPassword, String name, String description)
             throws SuchUserIsExistException {
         validateRegistration(login, password, confirmationPassword);
-        masterDao.insert(new Master(login, password, name, description));
+        return masterDao.insert(new Master(login, password, name, description));
     }
 
     @Override

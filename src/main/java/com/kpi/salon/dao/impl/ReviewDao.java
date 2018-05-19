@@ -27,8 +27,8 @@ public class ReviewDao implements IReviewsDao {
     }
 
     @Override
-    public void insert(Review item) {
-
+    public boolean insert(Review item) {
+        return false;
     }
 
 }

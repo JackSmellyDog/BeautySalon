@@ -6,5 +6,5 @@ public interface IDao <T> {
     List<T> findAll();
     boolean deleteById(Long id);
     boolean findById(Long id);
-    void insert(T item);
+    boolean insert(T item);
 }

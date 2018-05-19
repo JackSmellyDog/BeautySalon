@@ -55,13 +55,12 @@ public class MasterDao implements IMasterDao {
         ){
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
+            return true;
 
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
+            return false;
         }
-
-        // TODO
-        return false;
     }
 
     @Override
@@ -71,7 +70,7 @@ public class MasterDao implements IMasterDao {
 
 
     @Override
-    public void insert(Master item) {
+    public boolean insert(Master item) {
         try(Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_MASTER_QUERY)
         ){
@@ -80,9 +79,11 @@ public class MasterDao implements IMasterDao {
             preparedStatement.setString(NAME_COLUMN, item.getName());
             preparedStatement.setString(DESCRIPTION_COLUMN, item.getDescription());
             preparedStatement.executeUpdate();
+            return true;
 
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
+            return false;
         }
     }
 

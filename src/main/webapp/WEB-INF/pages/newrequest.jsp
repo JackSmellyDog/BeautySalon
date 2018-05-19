@@ -10,49 +10,47 @@
 <html>
 <head>
     <title>Haircut request</title>
+
+    <script src="resources/js/jquery-3.3.1.min.js"></script>
+    <script src="resources/js/moment.min.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
+    <script src="resources/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="resources/js/main.js"></script>
+
     <link rel="stylesheet" type="text/css" href="resources/css/style.css">
     <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
-    <script src="resources/js/jquery-3.3.1.min.js"></script>
-    <script src="resources/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap-datetimepicker.min.css">
+
 </head>
 <body>
     <jsp:include page="header.jsp"/>
-    <fieldset>
-        <legend>New Request</legend>
+    <div class="pin-to-center">
         <form method="post" action="/app?command=AddRequest">
-            <table cellpadding="2" cellspacing="2">
-                <tr>
-                    <td>Master: </td>
-                    <td>
+            <div class="form-group">
+                <label for="master_id">Master: </label>
+                <select name="master_id" id="master_id" class="form-control">
+                    <c:forEach var="master" items="${masters}">
+                        <option value="${master.id}">
+                                ${master.name}
+                        </option>
+                    </c:forEach>
+                </select>
+            </div>
 
-                        <select name="master_id">
-                            <c:forEach var="master" items="${masters}">
-                                <option value="${master.id}">
-                                        ${master.name}
-                                </option>
-                            </c:forEach>
-                        </select>
+            <div class="form-group">
+                <div  class="input-group date"  id="datetimepicker" >
+                    <input name="date" type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
 
-                    </td>
-                </tr>
 
-                <tr>
-                    <td>Data: </td>
-                    <td><input type="date" name="date"></td>
-                </tr>
+            <button type="submit" class="btn btn-info">Add</button>
 
-                <tr>
-                    <td>Time: </td>
-                    <td><input type="time" name="time"></td>
-                </tr>
-
-                <tr>
-                    <td>&nbsp; </td>
-                    <td><input type="submit" value="Add"></td>
-                </tr>
-            </table>
         </form>
-    </fieldset>
+    </div>
     <jsp:include page="footer.jsp"/>
 </body>
 </html>
