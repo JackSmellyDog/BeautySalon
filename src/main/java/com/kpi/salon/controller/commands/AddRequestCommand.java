@@ -43,11 +43,7 @@ public class AddRequestCommand extends FrontCommand {
             //2018-05-16
             //15:03
 
-            requestService.create(new Request(
-                    dateTime,
-                    clientId,
-                    Long.parseLong(masterId)
-            ));
+            requestService.create(dateTime, clientId, Long.parseLong(masterId));
 
             PrintWriter writer = response.getWriter();
 

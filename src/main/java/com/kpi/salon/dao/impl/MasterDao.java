@@ -64,8 +64,29 @@ public class MasterDao implements IMasterDao {
     }
 
     @Override
-    public boolean findById(Long id) {
-        return false;
+    public Master findById(Long id) {
+        Master master = null;
+        try(Connection connection = connectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)
+        ){
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()){
+                master = new Master(
+                        resultSet.getLong("id"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description")
+                );
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+
+        return master;
     }
 
 

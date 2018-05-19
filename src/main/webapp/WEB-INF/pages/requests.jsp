@@ -17,6 +17,29 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Date & Time</th>
+        <th>Client ID</th>
+        <th>Master ID</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach var="request" items="${requests}">
+        <tr>
+            <td>${request.id}</td>
+            <td>${request.date}</td>
+            <td>${request.client}</td>
+            <td>${request.master}</td>
+        </tr>
+    </c:forEach>
+
+    </tbody>
+</table>
+
 <jsp:include page="footer.jsp"/>
 
 

@@ -22,8 +22,8 @@ public class ReviewDao implements IReviewsDao {
     }
 
     @Override
-    public boolean findById(Long id) {
-        return false;
+    public Review findById(Long id) {
+        return null;
     }
 
     @Override

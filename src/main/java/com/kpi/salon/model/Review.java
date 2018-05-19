@@ -5,16 +5,18 @@ import java.util.Objects;
 public class Review {
     private Long id;
     private String text;
-    private Long requestId;
+    private Integer rating;
+    private Request request;
 
-    public Review(Long id, String text, Long requestId) {
+    public Review(Long id, String text, Integer rating, Request request) {
         this.id = id;
         this.text = text;
-        this.requestId = requestId;
+        this.rating = rating;
+        this.request = request;
     }
 
-    public Review(String text, Long requestId) {
-        this(null, text, requestId);
+    public Review(String text, Integer rating, Request request) {
+        this(null, text, rating, request);
     }
 
 
@@ -34,12 +36,20 @@ public class Review {
         this.text = text;
     }
 
-    public Long getRequestId() {
-        return requestId;
+    public Integer getRating() {
+        return rating;
     }
 
-    public void setRequestId(Long requestId) {
-        this.requestId = requestId;
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public Request getRequest() {
+        return request;
+    }
+
+    public void setRequest(Request request) {
+        this.request = request;
     }
 
     @Override
@@ -48,11 +58,14 @@ public class Review {
         if (o == null || getClass() != o.getClass()) return false;
         Review review = (Review) o;
         return Objects.equals(getId(), review.getId()) &&
-                Objects.equals(getRequestId(), review.getRequestId());
+                Objects.equals(getText(), review.getText()) &&
+                Objects.equals(getRating(), review.getRating()) &&
+                Objects.equals(getRequest(), review.getRequest());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getRequestId());
+
+        return Objects.hash(getId(), getText(), getRating(), getRequest());
     }
 }

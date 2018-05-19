@@ -3,6 +3,7 @@ package com.kpi.salon.dao.impl;
 import com.kpi.salon.dao.IAdminDao;
 import com.kpi.salon.datasource.ConnectionManager;
 import com.kpi.salon.model.Admin;
+import com.kpi.salon.model.Master;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -46,8 +47,8 @@ public class AdminDao implements IAdminDao {
     }
 
     @Override
-    public boolean findById(Long id) {
-        return false;
+    public Admin findById(Long id) {
+        return null;
     }
 
     @Override

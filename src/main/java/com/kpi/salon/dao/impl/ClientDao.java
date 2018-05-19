@@ -12,8 +12,10 @@ import java.util.List;
 public class ClientDao implements IClientDao {
     private static final Logger LOGGER = Logger.getLogger(ClientDao.class);
 
+
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String BY_USERNAME_QUERY = "SELECT * FROM beauty_clients WHERE login='%s'";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM beauty_clients WHERE id=?";
     private static final String INSERT_USER_QUERY = "INSERT INTO beauty_clients (login, password) VALUES (?, ?)";
     private static final String ALL_USERS_QUERY = "SELECT * FROM beauty_clients";
 
@@ -50,8 +52,27 @@ public class ClientDao implements IClientDao {
     }
 
     @Override
-    public boolean findById(Long id) {
-        return false;
+    public Client findById(Long id) {
+        Client client = null;
+        try(Connection connection = connectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)
+        ){
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()){
+                client = new Client(
+                        resultSet.getLong("id"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password")
+                );
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+
+        return client;
     }
 
     @Override

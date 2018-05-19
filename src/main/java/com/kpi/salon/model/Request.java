@@ -6,8 +6,8 @@ import java.util.Objects;
 public class Request {
     private Long id;
     private LocalDateTime date;
-    private Long clientId;
-    private Long masterId;
+    private Client client;
+    private Master master;
 
     public Long getId() {
         return id;
@@ -25,31 +25,31 @@ public class Request {
         this.date = date;
     }
 
-    public Long getClientId() {
-        return clientId;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public Long getMasterId() {
-        return masterId;
+    public Master getMaster() {
+        return master;
     }
 
-    public void setMasterId(Long masterId) {
-        this.masterId = masterId;
+    public void setMaster(Master master) {
+        this.master = master;
     }
 
-    public Request(Long id, LocalDateTime date, Long clientId, Long masterId) {
+    public Request(Long id, LocalDateTime date, Client client, Master master) {
         this.id = id;
         this.date = date;
-        this.clientId = clientId;
-        this.masterId = masterId;
+        this.client = client;
+        this.master = master;
     }
 
-    public Request(LocalDateTime date, Long clientId, Long masterId) {
-        this(null, date, clientId, masterId);
+    public Request(LocalDateTime date, Client client, Master master) {
+        this(null, date, client, master);
     }
 
     @Override
@@ -58,12 +58,13 @@ public class Request {
         if (o == null || getClass() != o.getClass()) return false;
         Request request = (Request) o;
         return Objects.equals(getId(), request.getId()) &&
-                Objects.equals(getClientId(), request.getClientId()) &&
-                Objects.equals(getMasterId(), request.getMasterId());
+                Objects.equals(getDate(), request.getDate()) &&
+                Objects.equals(getClient(), request.getClient()) &&
+                Objects.equals(getMaster(), request.getMaster());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getClientId(), getMasterId());
+        return Objects.hash(getId(), getDate(), getClient(), getMaster());
     }
 }
