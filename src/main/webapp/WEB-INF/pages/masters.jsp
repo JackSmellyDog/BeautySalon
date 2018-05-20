@@ -17,80 +17,81 @@
 </head>
 <body>
     <jsp:include page="header.jsp"/>
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Login</th>
-                <th>Description</th>
-                <c:if test="${role == 'Client'}">
-                    <th>Order</th>
-                </c:if>
-
-                <c:if test="${role == 'Admin'}">
-                    <th>Delete</th>
-                </c:if>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="master" items="${masters}">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-8">
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>${master.name}</td>
-                    <td>${master.login}</td>
-                    <td>${master.description}</td>
-
+                    <th>Name</th>
+                    <th>Login</th>
+                    <th>Description</th>
                     <c:if test="${role == 'Client'}">
-                        <td><a href="/app?command=AddRequest" >Make order</a></td>
+                        <th>Order</th>
                     </c:if>
 
                     <c:if test="${role == 'Admin'}">
-                        <td><a href="/app?command=DeleteMaster&id=${master.id}">X</a></td>
+                        <th>Delete</th>
                     </c:if>
                 </tr>
-            </c:forEach>
+            </thead>
+            <tbody>
+                <c:forEach var="master" items="${masters}">
+                    <tr>
+                        <td>${master.name}</td>
+                        <td>${master.login}</td>
+                        <td>${master.description}</td>
 
-        </tbody>
-    </table>
+                        <c:if test="${role == 'Client'}">
+                            <td><a href="/app?command=AddRequest" >Make order</a></td>
+                        </c:if>
 
-    <br>
-    <br>
+                        <c:if test="${role == 'Admin'}">
+                            <td><a href="/app?command=DeleteMaster&id=${master.id}">X</a></td>
+                        </c:if>
+                    </tr>
+                </c:forEach>
 
-    <c:if test="${role == 'Admin'}">
+            </tbody>
+        </table>
+            </div>
 
-        <div>
-            <form method="post" action="/app?command=AddMaster">
-                <div class="form-group">
-                    <label for="username">Username: </label>
-                    <input type="email" name="username" id="username" class="form-control" placeholder="example@example.com">
-                </div>
+        <c:if test="${role == 'Admin'}">
 
-                <div class="form-group">
-                    <label for="password">Password: </label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder="password">
-                </div>
+            <div class="col-xs-4">
+                <form method="post" action="/app?command=AddMaster">
+                    <div class="form-group">
+                        <label for="username">Username: </label>
+                        <input type="email" name="username" id="username" class="form-control" placeholder="example@example.com">
+                    </div>
 
-                <div class="form-group">
-                    <label for="password">Confirm password: </label>
-                    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Confirmation Password">
-                </div>
+                    <div class="form-group">
+                        <label for="password">Password: </label>
+                        <input type="password" name="password" id="password" class="form-control" placeholder="password">
+                    </div>
 
-                <div class="form-group">
-                    <label for="last_first_name">Last & First Name: </label>
-                    <input type="text" name="last_first_name" id="last_first_name" class="form-control" placeholder="Ivan Ivanov">
-                </div>
+                    <div class="form-group">
+                        <label for="password">Confirm password: </label>
+                        <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Confirmation Password">
+                    </div>
 
-                <div class="form-group">
-                    <label>Short information: </label>
-                    <textarea name="description" id="description" class="form-control" rows="5"></textarea>
-                </div>
-                <button type="submit" class="btn btn-info">Add</button>
-            </form>
-            <div>${message}</div>
+                    <div class="form-group">
+                        <label for="last_first_name">Last & First Name: </label>
+                        <input type="text" name="last_first_name" id="last_first_name" class="form-control" placeholder="Ivan Ivanov">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Short information: </label>
+                        <textarea name="description" id="description" class="form-control" rows="5"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-info">Add</button>
+                </form>
+                <div>${message}</div>
+            </div>
+
+        </c:if>
         </div>
-
-    </c:if>
-
+    </div>
     <jsp:include page="footer.jsp"/>
 </body>
 </html>

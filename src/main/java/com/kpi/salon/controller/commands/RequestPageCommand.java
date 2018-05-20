@@ -35,6 +35,13 @@ public class RequestPageCommand extends FrontCommand {
             }
 
             forward("requests");
+        } else if ("Client".equals(role)) {
+
+            if (session.getAttribute("requests") == null) {
+                session.setAttribute("requests", requestService.findRequestsByClient(user.getId()));
+            }
+
+            forward("requests");
         } else {
             String username = (user == null)? "Anonymous" : user.getLogin();
             LOGGER.warn(String.format("%s has no rights to be here", username));

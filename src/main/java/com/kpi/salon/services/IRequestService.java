@@ -9,4 +9,6 @@ public interface IRequestService {
     boolean create(LocalDateTime dateTime, Long clientId, Long masterId);
     List<Request> findAllRequests();
     List<Request> findRequestsByMaster(Long id);
+
+    List<Request> findRequestsByClient(Long id);
 }

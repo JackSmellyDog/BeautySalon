@@ -1,6 +1,5 @@
 package com.kpi.salon.controller.commands;
 
-import com.kpi.salon.model.Request;
 import com.kpi.salon.model.User;
 import com.kpi.salon.services.impl.RequestService;
 import com.kpi.salon.services.impl.UserService;
@@ -22,41 +21,22 @@ public class AddRequestCommand extends FrontCommand {
         UserService userService = new UserService();
 
         if ("POST".equalsIgnoreCase(request.getMethod())){
-
-            response.setContentType("text/html");
-
             RequestService requestService = new RequestService();
 
             User user = (User) session.getAttribute("user");
             Long clientId = user.getId();
 
             String masterId = request.getParameter("master_id");
-
             String date = request.getParameter("date");
-            String time = request.getParameter("time");
-
-            System.out.println(date);
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
 
-            //2018-05-16
-            //15:03
-
-            requestService.create(dateTime, clientId, Long.parseLong(masterId));
-
-            PrintWriter writer = response.getWriter();
-
-            StringBuilder builder = new StringBuilder();
-
-            builder.append(clientId).append("<br>")
-                    .append(masterId).append("<br>")
-                    .append(date).append("<br>")
-                    .append(time);
-
-
-            writer.println(builder.toString());
-            writer.close();
+            if (requestService.create(dateTime, clientId, Long.parseLong(masterId))) {
+                forward("newrequest");
+            } else {
+                forward("unknown");
+            }
 
 
         } else {

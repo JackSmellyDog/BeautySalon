@@ -7,11 +7,11 @@ public abstract class User {
     protected String login;
     protected String password;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

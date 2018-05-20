@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="ct" uri="http://localhost:8080/" %>
+<%@ taglib prefix="mct" uri="/WEB-INF/tld/schedule.tld" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -24,31 +26,70 @@
 </head>
 <body>
     <jsp:include page="header.jsp"/>
-    <div class="pin-to-center">
-        <form method="post" action="/app?command=AddRequest">
-            <div class="form-group">
-                <label for="master_id">Master: </label>
-                <select name="master_id" id="master_id" class="form-control">
-                    <c:forEach var="master" items="${masters}">
-                        <option value="${master.id}">
-                                ${master.name}
-                        </option>
-                    </c:forEach>
-                </select>
+
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-xs-8">
+                <mct:schedule masterId="3"/>
+                <%--<table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var = "i" begin = "9" end = "18">
+                            <tr>
+                                <td>${i}:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>--%>
             </div>
 
-            <div class="form-group">
-                <div  class="input-group date"  id="datetimepicker" >
-                    <input name="date" type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
+            <div class="col-xs-4">
+                <form method="post" action="/app?command=AddRequest">
+                    <div class="form-group">
+                        <label for="master_id">Master: </label>
+                        <select name="master_id" id="master_id" class="form-control">
+                            <c:forEach var="master" items="${masters}">
+                                <option value="${master.id}">
+                                        ${master.name}
+                                </option>
+                            </c:forEach>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <div  class="input-group date"  id="datetimepicker" >
+                            <input name="date" type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-info">Add</button>
+
+                </form>
             </div>
-
-            <button type="submit" class="btn btn-info">Add</button>
-
-        </form>
+        </div>
     </div>
     <jsp:include page="footer.jsp"/>
 </body>

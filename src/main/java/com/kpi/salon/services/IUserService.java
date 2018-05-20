@@ -17,4 +17,5 @@ public interface IUserService {
     boolean register(String login, String password, String confirmationPassword) throws SuchUserIsExistException;
     boolean addMaster(String login, String password, String confirmationPassword, String name, String description) throws SuchUserIsExistException;
     boolean deleteMaster(Long id);
+    Master findMasterById(Long id);
 }

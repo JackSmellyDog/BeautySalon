@@ -12,6 +12,8 @@ public class LogoutCommand extends FrontCommand {
         session.removeAttribute("user");
         session.removeAttribute("role");
         session.removeAttribute("masters");
+        session.removeAttribute("requests");
+        session.removeAttribute("reviews");
 
         forward("login");
     }

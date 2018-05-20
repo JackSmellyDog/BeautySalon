@@ -1,5 +1,3 @@
-body::after{ content:''; display:block; height:100px; }
-
 
 .pin-to-center{
     position: fixed;
@@ -18,9 +16,10 @@ body::after{ content:''; display:block; height:100px; }
 }
 
 .my-footer{
-    position:absolute;
+    position: relative;
     bottom:0;
     width:100%;
     height:100px;
     background:#DB8A8A;
 }
+

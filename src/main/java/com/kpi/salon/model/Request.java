@@ -48,6 +48,9 @@ public class Request {
         this.master = master;
     }
 
+    public Request() {
+
+    }
     public Request(LocalDateTime date, Client client, Master master) {
         this(null, date, client, master);
     }
@@ -66,5 +69,15 @@ public class Request {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getDate(), getClient(), getMaster());
+    }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "id=" + id +
+                ", date=" + date +
+                ", client=" + client +
+                ", master=" + master +
+                '}';
     }
 }

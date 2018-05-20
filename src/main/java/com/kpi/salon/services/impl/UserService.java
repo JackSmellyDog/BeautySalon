@@ -70,6 +70,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public Master findMasterById(Long id) {
+        return masterDao.findById(id);
+    }
+
+    @Override
     public List<Admin> findAllAdmins() {
         return adminDao.findAll();
     }

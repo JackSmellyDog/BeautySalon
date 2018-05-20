@@ -37,4 +37,9 @@ public class RequestService implements IRequestService {
     public List<Request> findRequestsByMaster(Long id) {
         return requestDao.findByMaster(id);
     }
+
+    @Override
+    public List<Request> findRequestsByClient(Long id) {
+        return requestDao.findByClient(id);
+    }
 }

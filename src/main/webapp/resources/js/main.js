@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#datetimepicker').datetimepicker({
-        format: 'YYYY-MM-DD HH:mm',
+        format: 'YYYY-MM-DD HH:00',
         icons: {
             time: 'glyphicon glyphicon-time',
             date: 'glyphicon glyphicon-calendar',
@@ -14,4 +14,8 @@ $(document).ready(function () {
             close: 'glyphicon glyphicon-remove'
         }
     });
-})
+
+    $('#carouselControls').carousel({
+        interval: 2000
+    });
+});
