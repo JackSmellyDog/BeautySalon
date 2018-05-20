@@ -16,7 +16,7 @@
     <script src="resources/js/bootstrap.min.js"></script>
 </head>
 <body class="freaking-ping">
-<div class="pin-to-center">
+<div class="pin-to-center auth-form">
     <form method="post" action="/app?command=Login">
         <div class="form-group">
             <label for="username">Username: </label>
@@ -30,7 +30,7 @@
 
         <button type="submit" class="btn btn-info">Log in</button>
     </form>
-    <div>${message}</div>
+    <div class="text-danger">${message}</div>
 
     <div class="text-center">
         <a href="/app?command=Register" >Registration</a>

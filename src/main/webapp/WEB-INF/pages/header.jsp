@@ -4,7 +4,9 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Beauty Salon</a>
+            <a class="navbar-brand" href="#">
+                <img src="resources/img/owl2.png">
+            </a>
         </div>
         <ul class="nav navbar-nav navbar-left">
             <li class="active"><a href="/app?command=HomePage">Home</a></li>

@@ -41,11 +41,11 @@
             </div>
 
             <div class="item">
-                <img src="resources/img/beast.jpeg" alt="Chicago" style="width:100%;">
+                <img src="resources/img/happy2.jpeg" alt="Chicago" style="width:100%;">
             </div>
 
             <div class="item">
-                <img src="resources/img/beast.jpeg" alt="New york" style="width:100%;">
+                <img src="resources/img/happy3.jpeg" alt="New york" style="width:100%;">
             </div>
         </div>
 

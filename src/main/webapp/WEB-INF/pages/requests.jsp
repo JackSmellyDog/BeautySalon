@@ -23,17 +23,37 @@
     <tr>
         <th>ID</th>
         <th>Date & Time</th>
-        <th>Client ID</th>
-        <th>Master ID</th>
+        <c:if test="${role != 'Client'}">
+            <th>Client</th>
+        </c:if>
+        <c:if test="${role != 'Master'}">
+            <th>Master</th>
+        </c:if>
+        <th>Status</th>
     </tr>
     </thead>
     <tbody>
     <c:forEach var="request" items="${requests}">
         <tr>
             <td>${request.id}</td>
-            <td>${request.date}</td>
-            <td>${request.client}</td>
-            <td>${request.master}</td>
+            <td>${request.date.year}-${request.date.month}-${request.date.dayOfMonth} ${request.date.hour}:00 </td>
+
+            <c:if test="${role != 'Client'}">
+                <td>${request.client.login}</td>
+            </c:if>
+            <c:if test="${role != 'Master'}">
+                <td>
+                    <a href="#">${request.master.name}</a><br>
+                    <p>${request.master.login}</p>
+                </td>
+            </c:if>
+
+            <c:if test="${role == 'Master' || role == 'Admin'}">
+                <td>
+                    <a href="/app?command=CompleteRequest&id=${request.id}">Complete</a><br>
+                </td>
+            </c:if>
+
         </tr>
     </c:forEach>
 

@@ -16,7 +16,7 @@
     <script src="resources/js/bootstrap.min.js"></script>
 </head>
 <body class="freaking-ping">
-<div class="pin-to-center">
+<div class="pin-to-center code-form">
     <form method="post" action="/app?command=Code">
 
         <div class="form-group">
@@ -27,7 +27,7 @@
         <button type="submit" class="btn btn-info">Send</button>
 
     </form>
-    <div>${message}</div>
+    <div class="text-danger">${message}</div>
 
     <div class="text-center">
         <a href="/app?command=Register" >Registration</a>

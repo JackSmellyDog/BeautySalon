@@ -18,7 +18,7 @@
 </head>
 <body class="freaking-ping">
 
-<div class="pin-to-center">
+<div class="pin-to-center auth-form">
     <form method="post" action="/app?command=Register">
         <div class="form-group">
             <label for="username">Username: </label>
@@ -37,7 +37,7 @@
 
         <button type="submit" class="btn btn-info">Sign in</button>
     </form>
-    <div>${message}</div>
+    <div class="text-danger">${message}</div>
 </div>
 
 </body>
