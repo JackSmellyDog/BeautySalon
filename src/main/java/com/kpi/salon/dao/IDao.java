@@ -7,4 +7,5 @@ public interface IDao <T> {
     boolean deleteById(Long id);
     T findById(Long id);
     boolean insert(T item);
+    boolean update(T item);
 }

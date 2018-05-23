@@ -11,4 +11,5 @@ public interface IRequestService {
     List<Request> findRequestsByMaster(Long id);
 
     List<Request> findRequestsByClient(Long id);
+    Request findRequestById(Long id);
 }

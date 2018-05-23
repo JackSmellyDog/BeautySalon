@@ -81,7 +81,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Short information: </label>
+                        <label for="description">Short information: </label>
                         <textarea name="description" id="description" class="form-control" rows="5"></textarea>
                     </div>
                     <button type="submit" class="btn btn-info">Add</button>
@@ -91,8 +91,8 @@
 
         </c:if>
         </div>
-        <jsp:include page="footer.jsp"/>
-    </div>
 
+    </div>
+    <jsp:include page="footer.jsp"/>
 </body>
 </html>

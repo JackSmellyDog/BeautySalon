@@ -5,11 +5,16 @@ import com.kpi.salon.datasource.ConnectionManager;
 import com.kpi.salon.model.Client;
 import com.kpi.salon.model.Master;
 import com.kpi.salon.model.Request;
+import com.kpi.salon.model.Status;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.kpi.salon.model.Status.ACTIVE;
+import static com.kpi.salon.model.Status.CANCELED;
+import static com.kpi.salon.model.Status.DONE;
 
 public class RequestDao implements IRequestDao {
     private static final Logger LOGGER = Logger.getLogger(RequestDao.class);
@@ -17,19 +22,19 @@ public class RequestDao implements IRequestDao {
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
     //private static final String ALL_REQUESTS_QUERY = "SELECT * FROM beauty_requests";
     //private static final String REQUESTS_BY_MASTER_QUERY = "SELECT * FROM beauty_requests WHERE master_id=?";
-    private static final String INSERT_REQUEST_QUERY = "INSERT INTO beauty_requests (appointment_time, client_id, master_id) VALUES (?, ?, ?)";
-    private static final String ALL_REQUESTS_QUERY = "SELECT br.id, br.appointment_time, bc.id AS c_id, bc.login AS c_login, bc.password AS c_password, bm.id AS m_id, bm.login AS m_login, bm.password AS m_password, bm.name AS m_name, bm.description\n" +
+    private static final String INSERT_REQUEST_QUERY = "INSERT INTO beauty_requests (appointment_time, client_id, master_id, status_id) VALUES (?, ?, ?, ?)";
+    private static final String ALL_REQUESTS_QUERY = "SELECT br.id AS id, br.appointment_time AS time, bc.id AS c_id, bc.login AS c_login, bc.password AS c_password, bm.id AS m_id, bm.login AS m_login, bm.password AS m_password, bm.name AS m_name, bm.description AS description, status_id\n" +
             "FROM beauty_requests br\n" +
             "INNER JOIN beauty_clients bc ON br.client_id = bc.id\n" +
-            "INNER JOIN beauty_masters bm ON br.master_id = bm.id";
+            "INNER JOIN beauty_masters bm ON br.master_id = bm.id;";
 
-    private static final String REQUESTS_BY_MASTER_QUERY = "SELECT br.id, br.appointment_time, bc.id AS c_id, bc.login AS c_login, bc.password AS c_password, bm.id AS m_id, bm.login AS m_login, bm.password AS m_password, bm.name AS m_name, bm.description\n" +
+    private static final String REQUESTS_BY_MASTER_QUERY = "SELECT br.id AS id, br.appointment_time AS time, bc.id AS c_id, bc.login AS c_login, bc.password AS c_password, bm.id AS m_id, bm.login AS m_login, bm.password AS m_password, bm.name AS m_name, bm.description AS description, status_id\n" +
             "FROM beauty_requests br\n" +
             "INNER JOIN beauty_clients bc ON br.client_id = bc.id\n" +
             "INNER JOIN beauty_masters bm ON br.master_id = bm.id\n" +
             "WHERE bm.id = ?;";
 
-    private static final String REQUESTS_BY_CLIENT_QUERY = "SELECT br.id, br.appointment_time, bc.id AS c_id, bc.login AS c_login, bc.password AS c_password, bm.id AS m_id, bm.login AS m_login, bm.password AS m_password, bm.name AS m_name, bm.description\n" +
+    private static final String REQUESTS_BY_CLIENT_QUERY = "SELECT br.id AS id, br.appointment_time AS time, bc.id AS c_id, bc.login AS c_login, bc.password AS c_password, bm.id AS m_id, bm.login AS m_login, bm.password AS m_password, bm.name AS m_name, bm.description AS description, status_id\n" +
             "FROM beauty_requests br\n" +
             "INNER JOIN beauty_clients bc ON br.client_id = bc.id\n" +
             "INNER JOIN beauty_masters bm ON br.master_id = bm.id\n" +
@@ -58,11 +63,15 @@ public class RequestDao implements IRequestDao {
                         resultSet.getString("description")
                 );
 
+                Long status_id = resultSet.getLong("status_id");
+                Status status = (status_id == 1)? ACTIVE : ((status_id == 2)? DONE : CANCELED);
+
                 requests.add(new Request(
                         resultSet.getLong("id"),
-                        resultSet.getTimestamp("appointment_time").toLocalDateTime(),
+                        resultSet.getTimestamp("time").toLocalDateTime(),
                         client,
-                        master
+                        master,
+                        status
                 ));
             }
 
@@ -95,6 +104,10 @@ public class RequestDao implements IRequestDao {
             preparedStatement.setTimestamp(1, Timestamp.valueOf(item.getDate()));
             preparedStatement.setLong(2, item.getClient().getId());
             preparedStatement.setLong(3, item.getMaster().getId());
+
+            int status_id = (item.getStatus() == ACTIVE)? 1 : ((item.getStatus() == DONE)? 2 : 3);
+            preparedStatement.setLong(4, status_id);
+
             preparedStatement.executeUpdate();
             return true;
 
@@ -102,6 +115,11 @@ public class RequestDao implements IRequestDao {
             LOGGER.error(e.getMessage(), e);
             return false;
         }
+    }
+
+    @Override
+    public boolean update(Request item) {
+        return false;
     }
 
     @Override
@@ -136,6 +154,10 @@ public class RequestDao implements IRequestDao {
 
 
             while (resultSet.next()){
+
+                Long status_id = resultSet.getLong("status_id");
+                Status status = (status_id == 1)? ACTIVE : ((status_id == 2)? DONE : CANCELED);
+
                 Client client = new Client(
                         resultSet.getLong("c_id"),
                         resultSet.getString("c_login"),
@@ -152,9 +174,10 @@ public class RequestDao implements IRequestDao {
 
                 requests.add(new Request(
                         resultSet.getLong("id"),
-                        resultSet.getTimestamp("appointment_time").toLocalDateTime(),
+                        resultSet.getTimestamp("time").toLocalDateTime(),
                         client,
-                        master
+                        master,
+                        status
                 ));
             }
 

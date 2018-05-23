@@ -8,6 +8,7 @@ public class Request {
     private LocalDateTime date;
     private Client client;
     private Master master;
+    private Status status;
 
     public Long getId() {
         return id;
@@ -41,18 +42,27 @@ public class Request {
         this.master = master;
     }
 
-    public Request(Long id, LocalDateTime date, Client client, Master master) {
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Request(Long id, LocalDateTime date, Client client, Master master, Status status) {
         this.id = id;
         this.date = date;
         this.client = client;
         this.master = master;
+        this.status = status;
     }
 
     public Request() {
 
     }
-    public Request(LocalDateTime date, Client client, Master master) {
-        this(null, date, client, master);
+    public Request(LocalDateTime date, Client client, Master master, Status status) {
+        this(null, date, client, master, status);
     }
 
     @Override

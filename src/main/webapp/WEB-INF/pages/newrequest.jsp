@@ -33,34 +33,6 @@
 
             <div class="col-xs-8">
                 <mct:schedule masterId="3"/>
-                <%--<table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Time</th>
-                        <th>1</th>
-                        <th>2</th>
-                        <th>3</th>
-                        <th>4</th>
-                        <th>5</th>
-                        <th>6</th>
-                        <th>7</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var = "i" begin = "9" end = "18">
-                            <tr>
-                                <td>${i}:00</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>--%>
             </div>
 
             <div class="col-xs-4">

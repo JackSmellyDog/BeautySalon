@@ -47,13 +47,24 @@
                     <p>${request.master.login}</p>
                 </td>
             </c:if>
-
-            <c:if test="${role == 'Master' || role == 'Admin'}">
-                <td>
-                    <a href="/app?command=CompleteRequest&id=${request.id}">Complete</a><br>
-                </td>
-            </c:if>
-
+            <td>
+                <c:choose>
+                    <c:when test="${request.status == 'ACTIVE'}">
+                        <p class="text-success">${request.status}</p>
+                        <a href="/app?command=CompleteRequest&id=${request.id}" class="h6">Complete</a> |
+                        <a href="/app?command=CancelRequest&id=${request.id}" class="h6">Cancel</a>
+                    </c:when>
+                    <c:when test="${request.status == 'DONE'}">
+                        <p class="text-primary">${request.status}</p>
+                    </c:when>
+                    <c:when test="${request.status == 'CANCELED'}">
+                        <p class="text-danger">${request.status}</p>
+                    </c:when>
+                    <c:otherwise>
+                        <p class="text-danger">---------</p>
+                    </c:otherwise>
+                </c:choose>
+            </td>
         </tr>
     </c:forEach>
 

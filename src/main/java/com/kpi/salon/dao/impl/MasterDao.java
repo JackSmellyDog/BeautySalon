@@ -109,6 +109,11 @@ public class MasterDao implements IMasterDao {
     }
 
     @Override
+    public boolean update(Master item) {
+        return false;
+    }
+
+    @Override
     public Master findByUsername(String username) {
         Master master = null;
         try(Connection connection = connectionManager.getConnection();

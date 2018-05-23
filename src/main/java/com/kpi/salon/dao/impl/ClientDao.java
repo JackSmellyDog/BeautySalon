@@ -92,6 +92,11 @@ public class ClientDao implements IClientDao {
     }
 
     @Override
+    public boolean update(Client item) {
+        return false;
+    }
+
+    @Override
     public Client findByUsername(String username) {
         Client client = null;
         try(Connection connection = connectionManager.getConnection();

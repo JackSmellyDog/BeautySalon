@@ -7,6 +7,7 @@ import com.kpi.salon.dao.impl.MasterDao;
 import com.kpi.salon.model.Client;
 import com.kpi.salon.model.Master;
 import com.kpi.salon.model.Request;
+import com.kpi.salon.model.Status;
 import com.kpi.salon.services.IRequestService;
 import org.apache.log4j.Logger;
 
@@ -25,7 +26,7 @@ public class RequestService implements IRequestService {
         Client client = clientDao.findById(clientId);
         Master master = masterDao.findById(masterId);
 
-        return requestDao.insert(new Request(dateTime, client, master));
+        return requestDao.insert(new Request(dateTime, client, master, Status.ACTIVE));
     }
 
     @Override
@@ -41,5 +42,10 @@ public class RequestService implements IRequestService {
     @Override
     public List<Request> findRequestsByClient(Long id) {
         return requestDao.findByClient(id);
+    }
+
+    @Override
+    public Request findRequestById(Long id) {
+        return requestDao.findById(id);
     }
 }

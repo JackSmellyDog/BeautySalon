@@ -65,7 +65,15 @@ public class Review {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(getId(), getText(), getRating(), getRequest());
+    }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", rating=" + rating +
+                '}';
     }
 }

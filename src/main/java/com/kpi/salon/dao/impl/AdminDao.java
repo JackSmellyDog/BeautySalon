@@ -57,6 +57,11 @@ public class AdminDao implements IAdminDao {
     }
 
     @Override
+    public boolean update(Admin item) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Admin findByUsername(String username) {
         Admin admin = null;
         try(Connection connection = connectionManager.getConnection();

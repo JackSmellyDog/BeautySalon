@@ -17,6 +17,10 @@
             </c:if>
 
             <li><a href="/app?command=AddRequest">New Request</a></li>
+
+
+            <li><a href="/app?command=ReviewPage">Reviews</a></li>
+            <li><a href="/app?command=AddReview">New Review</a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
