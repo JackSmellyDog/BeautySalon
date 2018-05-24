@@ -5,6 +5,8 @@
   Time: 1:02
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
@@ -21,21 +23,21 @@
 <div class="pin-to-center auth-form">
     <form method="post" action="/app?command=Register">
         <div class="form-group">
-            <label for="username">Username: </label>
+            <label for="username"><fmt:message key="label.username"/> </label>
             <input type="text" name="username" id="username" class="form-control" placeholder="example@example.com">
         </div>
 
         <div class="form-group">
-            <label for="password">Password: </label>
+            <label for="password"><fmt:message key="label.password"/> </label>
             <input type="password" name="password" id="password" class="form-control" placeholder="Password">
         </div>
 
         <div class="form-group">
-            <label for="password">Confirm password: </label>
+            <label for="password"><fmt:message key="label.confirm.password"/> </label>
             <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Confirmation Password">
         </div>
 
-        <button type="submit" class="btn btn-info">Sign in</button>
+        <button type="submit" class="btn btn-info"><fmt:message key="button.sign.in"/></button>
     </form>
     <div class="text-danger">${message}</div>
 </div>

@@ -1,3 +1,5 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: andrii
@@ -5,8 +7,9 @@
   Time: 3:23
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%--<fmt:setBundle basename="EN_messages" var="fuck" scope="session"/>--%>
 <html>
 <head class="">
     <title>Title</title>
@@ -20,12 +23,28 @@
             interval: 2000
         });
     </script>
+   <%-- <c:choose>
+        <c:when test="${5 > 3}">
+            <fmt:setBundle basename="EN_messages" var="lang" scope="session"/>
+            <fmt:setLocale value="en"/>
+        </c:when>
+        <c:otherwise>
+            <fmt:setBundle basename="UA_messages" var="lang" scope="session"/>
+            <fmt:setLocale value="en"/>
+        </c:otherwise>
+    </c:choose>--%>
+
+
+
 </head>
 <body>
 
 <jsp:include page="header.jsp"/>
 
 <div class="container" style="width:700px; height: 600px">
+
+    <%--<fmt:message key="id" bundle="${fuck}"></fmt:message>--%>
+
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">

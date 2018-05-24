@@ -24,8 +24,18 @@ public class ReviewService implements IReviewService {
     }
 
     @Override
+    public Review findReviewByRequest(Request request) {
+        return reviewDao.findByRequestId(request);
+    }
+
+    @Override
     public boolean create(String text, Integer rating, Request request) {
         return reviewDao.insert(new Review(text, rating, request));
+    }
+
+    @Override
+    public boolean updateTextAndRating(Long id, String text, Integer rating) {
+        return reviewDao.update(new Review(id, text, rating));
     }
 
 }

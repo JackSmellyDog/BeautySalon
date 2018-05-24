@@ -21,7 +21,8 @@ public class ReviewDao implements IReviewsDao {
     private static final String INSERT_REVIEW_QUERY = "INSERT INTO beauty_reviews (text, rating, request_id) VALUES (?, ?, ?)";
     private static final String ALL_REVIEWS_QUERY = "SELECT * FROM beauty_reviews";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM beauty_reviews WHERE id=?";
-    private static final String UPDATE_REVIEW_QUERY = "UPDATE beauty_reviews text=?, rating=? WHERE id=?";
+    private static final String UPDATE_REVIEW_QUERY = "UPDATE beauty_reviews SET text=?, rating=? WHERE id=?";
+    private static final String FIND_BY_REQUEST_ID_QUERY = "SELECT * FROM beauty_reviews WHERE request_id=?";
 
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
     private RequestDao requestDao = (RequestDao) DaoFactory.create(REQUEST);
@@ -129,4 +130,28 @@ public class ReviewDao implements IReviewsDao {
         }
     }
 
+    @Override
+    public Review findByRequestId(Request request) {
+        Review review = null;
+
+        try(Connection connection = connectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_REQUEST_ID_QUERY)
+        ){
+            preparedStatement.setLong(1, request.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()){
+                Long id = resultSet.getLong("id");
+                String text = resultSet.getString("text");
+                Integer rating = resultSet.getInt("rating");
+
+                review = new Review(id, text, rating, request);
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+
+        return review;
+    }
 }

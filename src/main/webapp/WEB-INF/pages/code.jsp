@@ -1,3 +1,5 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: andrii
@@ -6,6 +8,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<fmt:setBundle basename="EN_messages" var="lang" scope="session"/>
+
 <html>
 <head>
     <title>Code</title>
@@ -17,20 +21,22 @@
 </head>
 <body class="freaking-ping">
 <div class="pin-to-center code-form">
+
+    <%--<fmt:message key="id" bundle="${lang}"/>--%>
     <form method="post" action="/app?command=Code">
 
         <div class="form-group">
-            <label for="code">Code: </label>
+            <label for="code"><fmt:message key="label.code" bundle="${lang}"/></label>
             <input type="text" name="code" id="code" class="form-control" placeholder="0000">
         </div>
 
-        <button type="submit" class="btn btn-info">Send</button>
+        <button type="submit" class="btn btn-info"><fmt:message key="button.send" bundle="${lang}"/></button>
 
     </form>
     <div class="text-danger">${message}</div>
 
     <div class="text-center">
-        <a href="/app?command=Register" >Registration</a>
+        <a href="/app?command=Register" ><fmt:message key="button.registration" bundle="${lang}"/> </a>
     </div>
 </div>
 </body>

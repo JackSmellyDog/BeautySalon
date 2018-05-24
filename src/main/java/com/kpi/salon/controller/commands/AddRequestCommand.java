@@ -33,6 +33,8 @@ public class AddRequestCommand extends FrontCommand {
             LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
 
             if (requestService.create(dateTime, clientId, Long.parseLong(masterId))) {
+                session.setAttribute("requests", requestService.findRequestsByClient(user.getId()));
+
                 forward("newrequest");
             } else {
                 forward("unknown");

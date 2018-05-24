@@ -1,3 +1,6 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: andrii
@@ -5,7 +8,7 @@
   Time: 12:19
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -61,30 +64,30 @@
             <div class="col-xs-4">
                 <form method="post" action="/app?command=AddMaster">
                     <div class="form-group">
-                        <label for="username">Username: </label>
+                        <label for="username"><fmt:message key="label.username" bundle="${lang}"/></label>
                         <input type="email" name="username" id="username" class="form-control" placeholder="example@example.com">
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Password: </label>
+                        <label for="password"><fmt:message key="label.password" bundle="${lang}"/></label>
                         <input type="password" name="password" id="password" class="form-control" placeholder="password">
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Confirm password: </label>
+                        <label for="password"><fmt:message key="label.confirm.password" bundle="${lang}"/></label>
                         <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Confirmation Password">
                     </div>
 
                     <div class="form-group">
-                        <label for="last_first_name">Last & First Name: </label>
+                        <label for="last_first_name"><fmt:message key="label.last.first.name" bundle="${lang}"/></label>
                         <input type="text" name="last_first_name" id="last_first_name" class="form-control" placeholder="Ivan Ivanov">
                     </div>
 
                     <div class="form-group">
-                        <label for="description">Short information: </label>
+                        <label for="description"><fmt:message key="label.short.info" bundle="${lang}"/></label>
                         <textarea name="description" id="description" class="form-control" rows="5"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-info">Add</button>
+                    <button type="submit" class="btn btn-info"><fmt:message key="button.add" bundle="${lang}"/></button>
                 </form>
                 <div>${message}</div>
             </div>

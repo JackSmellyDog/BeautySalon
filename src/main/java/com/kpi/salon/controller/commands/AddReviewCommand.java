@@ -1,6 +1,7 @@
 package com.kpi.salon.controller.commands;
 
 import com.kpi.salon.model.Request;
+import com.kpi.salon.model.Review;
 import com.kpi.salon.services.impl.RequestService;
 import com.kpi.salon.services.impl.ReviewService;
 import org.apache.log4j.Logger;
@@ -20,12 +21,17 @@ public class AddReviewCommand extends FrontCommand {
             ReviewService reviewService = new ReviewService();
 
             Request req = (Request) session.getAttribute("for_review");
+
+            // TODO delete this
             LOGGER.info(req);
 
             String text = request.getParameter("text");
             Integer rating = Integer.parseInt(request.getParameter("rating"));
 
-            if (reviewService.create(text, rating, req)) {
+            Review oldReview = reviewService.findReviewByRequest(req);
+
+
+            if (reviewService.updateTextAndRating(oldReview.getId(), text, rating)) {
 
                 if (session.getAttribute("reviews") == null) {
                     session.setAttribute("reviews", reviewService.findAllReviews());

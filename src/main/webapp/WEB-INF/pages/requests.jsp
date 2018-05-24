@@ -5,8 +5,11 @@
   Time: 2:50
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<fmt:setBundle basename="EN_messages" var="lang" scope="session"/>
 <html>
 <head>
     <title>Requests</title>
@@ -17,6 +20,8 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
+
+<fmt:message key="id" bundle="${lang}"></fmt:message>
 
 <table class="table table-striped">
     <thead>

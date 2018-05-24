@@ -5,6 +5,8 @@
   Time: 5:07
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -19,7 +21,6 @@
 <div class="row" style="width: 55%">
     <div class="col-xs-8 col-xs-offset-7">
         <form method="post" action="/app?command=AddReview">
-            <input value="${for_review}" name="for_review" hidden>
             <div class="form-group">
                 <label for="req">Request: </label>
                 <input class="form-control" id="req" value="${for_review.date.year}-${for_review.date.month}-${for_review.date.dayOfMonth} ${for_review.date.hour}:00" disabled>

@@ -19,6 +19,11 @@ public class Review {
         this(null, text, rating, request);
     }
 
+    public Review(Long id, String text, Integer rating) {
+        this(id, text, rating, null);
+    }
+
+    public Review() {}
 
     public Long getId() {
         return id;

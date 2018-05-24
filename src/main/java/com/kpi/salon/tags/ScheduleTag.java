@@ -68,18 +68,29 @@ public class ScheduleTag extends SimpleTagSupport {
 
         tbody.append("</tbody>");
 
-        builder.append("<table class=\"table table-bordered\">")
-                .append("<thead>").append("<tr>")
 
-                .append("<th>").append("Time").append("</th>")
-                .append("<th>").append(currentDate.getDayOfWeek().name()).append("</th>")
-                .append("<th>").append(currentDate.plusDays(1).getDayOfWeek().name()).append("</th>")
-                .append("<th>").append(currentDate.plusDays(2).getDayOfWeek().name()).append("</th>")
-                .append("<th>").append(currentDate.plusDays(3).getDayOfWeek().name()).append("</th>")
-                .append("<th>").append(currentDate.plusDays(4).getDayOfWeek().name()).append("</th>")
-                .append("<th>").append(currentDate.plusDays(5).getDayOfWeek().name()).append("</th>")
-                .append("<th>").append(currentDate.plusDays(6).getDayOfWeek().name()).append("</th>")
-                .append("</tr>").append("</thead>")
+        StringBuilder thead = new StringBuilder();
+        thead.append("<thead>").append("<tr>")
+                .append("<th style='width: 9%'>").append("Time").append("</th>");
+
+        for (int i = 0; i < 7; i++) {
+            LocalDateTime date = currentDate.plusDays(i);
+
+            thead.append("<th style='width: 13%'>")
+                    .append(date.getDayOfWeek().name()).append("<br>")
+                    .append("<p class='h6'>")
+                        .append(date.getDayOfMonth()).append('-')
+                        .append(date.getMonth()).append('-')
+                        .append(date.getYear())
+                    .append("</p>")
+                    .append("</th>");
+        }
+
+        thead.append("</tr>").append("</thead>");
+
+
+        builder.append("<table class=\"table table-bordered\">")
+                .append(thead)
                 .append(tbody)
                 .append("</table>");
 
