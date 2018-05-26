@@ -23,6 +23,14 @@
     <link rel="stylesheet" type="text/css" href="resources/css/style.css">
     <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="resources/css/bootstrap-datetimepicker.min.css">
+    <style>
+        .hidden {
+            visibility: hidden;
+        }
+        .visible {
+            visibility: visible;
+        }
+    </style>
 
 </head>
 <body>
@@ -31,9 +39,12 @@
 
     <div class="container">
         <div class="row">
-
             <div class="col-xs-9">
-                <mct:schedule masterId="3"/>
+                <c:forEach var="master" items="${masters}">
+                    <div id="schedule_${master.id}" <%--class="${master.id == chosen_master_id ? 'visible' : 'hidden'}"--%>>
+                        <mct:schedule masterId="${master.id}"/>
+                    </div>
+                </c:forEach>
             </div>
 
             <div class="col-xs-3">
@@ -65,5 +76,22 @@
         </div>
     </div>
     <jsp:include page="footer.jsp"/>
+    <script>
+        $( document ).ready(function() {
+
+            $('#master_id').on('change', function () {
+                var tableId = '#schedule_' + $(this).val();
+
+                $(this.options).each(function () {
+                    var id = '#schedule_' + $(this).val();
+                    $(id).addClass('hidden');
+
+                    console.log($(this).val())
+                });
+
+                $(tableId).removeClass('hidden');
+            });
+        });
+    </script>
 </body>
 </html>

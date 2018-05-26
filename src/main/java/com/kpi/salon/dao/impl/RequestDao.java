@@ -40,6 +40,9 @@ public class RequestDao implements IRequestDao {
             "INNER JOIN beauty_masters bm ON br.master_id = bm.id\n" +
             "WHERE bc.id = ?;";
 
+
+    private static final String UPDATE_REQUEST_STATUS = "UPDATE beauty_requests SET status_id=? WHERE id=?";
+
     @Override
     public List<Request> findAll() {
         List<Request> requests = new ArrayList<>();
@@ -140,6 +143,26 @@ public class RequestDao implements IRequestDao {
     @Override
     public List<Request> findByClient(Client client) {
         return findByClient(client.getId());
+    }
+
+    @Override
+    public boolean updateStatus(Request request, Status status) {
+        try(Connection connection = connectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_REQUEST_STATUS)
+        ){
+            int status_id = (status == ACTIVE)? 1 : ((status == DONE)? 2 : 3);
+            preparedStatement.setInt(1, status_id);
+            preparedStatement.setLong(2, request.getId() );
+            preparedStatement.executeUpdate();
+
+            LOGGER.info("Status has been changed");
+            LOGGER.info(request.getId());
+            return true;
+
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            return false;
+        }
     }
 
 

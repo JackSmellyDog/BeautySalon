@@ -3,18 +3,15 @@ package com.kpi.salon.controller.commands;
 import com.kpi.salon.exceptions.RequestFailException;
 import com.kpi.salon.model.Request;
 import com.kpi.salon.model.User;
-import com.kpi.salon.services.impl.EmailService;
 import com.kpi.salon.services.impl.RequestService;
-import com.kpi.salon.services.impl.ReviewService;
-import com.kpi.salon.services.impl.UserService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class CompleteRequestCommand extends FrontCommand {
-    private static final Logger LOGGER = Logger.getLogger(CompleteRequestCommand.class);
+public class CancelRequestCommand extends FrontCommand {
+    private static final Logger LOGGER = Logger.getLogger(CancelRequestCommand.class);
 
     @Override
     public void process() throws ServletException, IOException {
@@ -24,31 +21,17 @@ public class CompleteRequestCommand extends FrontCommand {
             Long id = Long.parseLong(request.getParameter("id"));
             User user = (User) session.getAttribute("user");
 
-            ReviewService reviewService = new ReviewService();
             RequestService requestService = new RequestService();
-
             Request req = requestService.findRequestById(id);
 
-            if (req != null && reviewService.create("", 0, req)) {
-
-                if (!requestService.markAsDone(req)){
-                    throw new RequestFailException("Unable to change status");
-                }
-
-                EmailService emailService = new EmailService();
-                String subject = "Leave a review";
-                String message = String.format("http://localhost:8080/app?command=AddReview&id=%d", id);
-
-                //emailService.send(subject, message, user.getLogin());
-
-                // TODO change maybe
+            if (req != null && requestService.markAsCanceled(req)) {
                 session.setAttribute("requests", requestService.findAllRequests());
-
                 forward("requests");
             } else {
-                throw new RequestFailException("Unable to create a new review");
+                throw new RequestFailException("Unable to change status");
             }
-        } catch (NumberFormatException | NullPointerException e) {
+
+        } catch (NumberFormatException e) {
             LOGGER.error(String.format("Invalid request id. %s", e.getMessage()), e);
             forward("unknown");
         } catch (RequestFailException e) {

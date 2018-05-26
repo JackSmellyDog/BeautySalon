@@ -16,14 +16,15 @@ public class FrontControllerServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(FrontControllerServlet.class);
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         handler(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         handler(req, resp);
     }
+
 
     private FrontCommand getCommand(HttpServletRequest request) {
         try {
@@ -40,9 +41,15 @@ public class FrontControllerServlet extends HttpServlet {
         }
     }
 
-    private void handler(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        FrontCommand command = getCommand(req);
-        command.init(getServletContext(), req, resp);
-        command.process();
+    private void handler(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            FrontCommand command = getCommand(req);
+            command.init(getServletContext(), req, resp);
+            command.process();
+        } catch (IOException | ServletException e) {
+            LOGGER.error(String.format("IO or Servlet exception happened: %s", e.getMessage()), e);
+        } catch (Exception e) {
+            LOGGER.error(String.format("Something unexpected happened: %s", e.getMessage()), e);
+        }
     }
 }

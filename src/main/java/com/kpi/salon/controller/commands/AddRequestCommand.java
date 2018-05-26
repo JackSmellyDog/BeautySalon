@@ -34,7 +34,7 @@ public class AddRequestCommand extends FrontCommand {
 
             if (requestService.create(dateTime, clientId, Long.parseLong(masterId))) {
                 session.setAttribute("requests", requestService.findRequestsByClient(user.getId()));
-
+                request.setAttribute("chosen_master_id", masterId);
                 forward("newrequest");
             } else {
                 forward("unknown");

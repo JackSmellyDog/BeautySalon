@@ -21,7 +21,6 @@
 <body>
 <jsp:include page="header.jsp"/>
 
-<fmt:message key="id" bundle="${lang}"></fmt:message>
 
 <table class="table table-striped">
     <thead>

@@ -48,4 +48,14 @@ public class RequestService implements IRequestService {
     public Request findRequestById(Long id) {
         return requestDao.findById(id);
     }
+
+    @Override
+    public boolean markAsDone(Request req) {
+        return requestDao.updateStatus(req, Status.DONE);
+    }
+
+    @Override
+    public boolean markAsCanceled(Request req) {
+        return requestDao.updateStatus(req, Status.CANCELED);
+    }
 }

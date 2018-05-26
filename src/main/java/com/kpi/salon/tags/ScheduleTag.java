@@ -5,6 +5,7 @@ import com.kpi.salon.services.impl.RequestService;
 import com.kpi.salon.services.impl.UserService;
 import org.apache.log4j.Logger;
 
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
@@ -28,6 +29,8 @@ public class ScheduleTag extends SimpleTagSupport {
         this.masterId = masterId;
     }
 
+
+
     @Override
     public void doTag() throws JspException, IOException {
         JspWriter out = getJspContext().getOut();
@@ -48,15 +51,18 @@ public class ScheduleTag extends SimpleTagSupport {
         StringBuilder tbody = new StringBuilder();
         tbody.append("<tbody>");
 
+        int today = currentDate.getDayOfWeek().getValue();
+
         for (int i = 9; i < 18; i++) {
             tbody.append("<tr>");
             tbody.append("<td>").append(i).append(":00").append("</td>");
-            int today = currentDate.getDayOfWeek().getValue();
+
+
             for (int j = today ; j < today + 7; j++) {
                 tbody.append("<td style='width: 100px;'");
-
+                int correctDay = (j % 7) == 0? 7 : (j % 7);
                 for (Request req : requests) {
-                    if (req.getDate().getDayOfWeek().getValue() == (j % 7) && req.getDate().getHour() == i) {
+                    if (req.getDate().getDayOfWeek().getValue() == correctDay && req.getDate().getHour() == i) {
                         tbody.append(" class='bg-danger'");
                     }
                 }

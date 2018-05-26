@@ -19,7 +19,7 @@
     <script src="resources/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <jsp:include page="header.jsp"/>
+    <jsp:include page="/WEB-INF/pages/header.jsp"/>
     <div class="container">
         <div class="row">
             <div class="col-xs-8">
@@ -96,6 +96,6 @@
         </div>
 
     </div>
-    <jsp:include page="footer.jsp"/>
+    <jsp:include page="WEB-INF/pages/footer.jsp"/>
 </body>
 </html>

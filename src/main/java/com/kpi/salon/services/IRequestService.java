@@ -12,4 +12,7 @@ public interface IRequestService {
 
     List<Request> findRequestsByClient(Long id);
     Request findRequestById(Long id);
+
+    boolean markAsDone(Request req);
+    boolean markAsCanceled(Request req);
 }

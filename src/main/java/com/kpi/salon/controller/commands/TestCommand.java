@@ -23,10 +23,12 @@ public class TestCommand extends FrontCommand {
 //        smsService.sendSms("4444", "380631066143");
 //
 
-        ValidationService validationService = new ValidationService();
+//        ValidationService validationService = new ValidationService();
 
         for (int i = 0; i < 1000; i++) {
-            System.out.println(validationService.validationCode());
+            System.out.println(i);
         }
+
+        forward("test");
     }
 }

@@ -8,8 +8,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<fmt:setLocale value="en" scope="session"/>
+<fmt:setBundle basename="EN_messages" scope="session"/>
 
-<%--<fmt:setBundle basename="EN_messages" var="fuck" scope="session"/>--%>
 <html>
 <head class="">
     <title>Title</title>
@@ -38,12 +39,10 @@
 
 </head>
 <body>
-
-<jsp:include page="header.jsp"/>
+<jsp:include page="/WEB-INF/pages/header.jsp"/>
 
 <div class="container" style="width:700px; height: 600px">
 
-    <%--<fmt:message key="id" bundle="${fuck}"></fmt:message>--%>
 
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
@@ -80,7 +79,7 @@
     </div>
 </div>
 
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/WEB-INF/pages/footer.jsp"/>
 
 
 </body>

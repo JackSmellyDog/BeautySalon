@@ -8,7 +8,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<fmt:setBundle basename="EN_messages" var="lang" scope="session"/>
+<fmt:setLocale value="en" scope="session"/>
+<fmt:setBundle basename="${EN_messages}" var="lang" scope="session"/>
 
 <html>
 <head>
@@ -26,17 +27,17 @@
     <form method="post" action="/app?command=Code">
 
         <div class="form-group">
-            <label for="code"><fmt:message key="label.code" bundle="${lang}"/></label>
+            <label for="code"><fmt:message key="label.code"/></label>
             <input type="text" name="code" id="code" class="form-control" placeholder="0000">
         </div>
 
-        <button type="submit" class="btn btn-info"><fmt:message key="button.send" bundle="${lang}"/></button>
+        <button type="submit" class="btn btn-info"><fmt:message key="button.send"/></button>
 
     </form>
     <div class="text-danger">${message}</div>
 
     <div class="text-center">
-        <a href="/app?command=Register" ><fmt:message key="button.registration" bundle="${lang}"/> </a>
+        <a href="/app?command=Register" ><fmt:message key="button.registration"/> </a>
     </div>
 </div>
 </body>

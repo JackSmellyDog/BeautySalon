@@ -3,7 +3,6 @@ package com.kpi.salon.services.impl;
 import com.kpi.salon.services.IEmailService;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
-import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.SimpleEmail;
 import org.apache.log4j.Logger;
 
@@ -36,7 +35,7 @@ public class EmailService implements IEmailService {
             sslFlag = Boolean.parseBoolean(properties.getProperty("ssl.flag"));
 
         } catch (IOException e) {
-           LOGGER.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -56,7 +55,7 @@ public class EmailService implements IEmailService {
             email.send();
 
         } catch(Exception e){
-            LOGGER.error("Unable to send email", e);
+            LOGGER.error(String.format("Unable to send email %s", to), e);
         }
     }
 
