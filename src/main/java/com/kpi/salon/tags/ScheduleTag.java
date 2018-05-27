@@ -1,6 +1,7 @@
 package com.kpi.salon.tags;
 
 import com.kpi.salon.model.Request;
+import com.kpi.salon.model.Status;
 import com.kpi.salon.services.impl.RequestService;
 import com.kpi.salon.services.impl.UserService;
 import org.apache.log4j.Logger;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class ScheduleTag extends SimpleTagSupport {
     private static final Logger LOGGER = Logger.getLogger(ScheduleTag.class);
     private String masterId;
+    private String clientId;
 
     private UserService userService = new UserService();
     private RequestService requestService = new RequestService();
@@ -27,6 +29,14 @@ public class ScheduleTag extends SimpleTagSupport {
 
     public void setMasterId(String masterId) {
         this.masterId = masterId;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
 
@@ -42,15 +52,16 @@ public class ScheduleTag extends SimpleTagSupport {
 
 
         requests = requests.stream()
+                .filter(r -> r.getStatus() != Status.CANCELED)
                 .filter(r -> r.getDate().isAfter(currentDate) && r.getDate().isBefore(currentDate.plusWeeks(1)))
                 .collect(Collectors.toList());
 
 
-        // TODO work this crazy stuff out
         StringBuilder tbody = new StringBuilder();
         tbody.append("<tbody>");
 
         int today = currentDate.getDayOfWeek().getValue();
+        Long clientId = Long.parseLong(this.clientId);
 
         for (int i = 9; i < 18; i++) {
             tbody.append("<tr>");
@@ -62,17 +73,18 @@ public class ScheduleTag extends SimpleTagSupport {
                 int correctDay = (j % 7) == 0? 7 : (j % 7);
                 for (Request req : requests) {
                     if (req.getDate().getDayOfWeek().getValue() == correctDay && req.getDate().getHour() == i) {
-                        tbody.append(" class='bg-danger'");
+                        if (req.getClient().getId().longValue() == clientId) {
+                            tbody.append(" class='bg-success'");
+                        } else {
+                            tbody.append(" class='bg-danger'");
+                        }
                     }
                 }
-
                 tbody.append("></td>");
             }
             tbody.append("</tr>");
         }
-
         tbody.append("</tbody>");
-
 
         StringBuilder thead = new StringBuilder();
         thead.append("<thead>").append("<tr>")

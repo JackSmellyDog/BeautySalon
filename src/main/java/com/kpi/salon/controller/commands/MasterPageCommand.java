@@ -16,7 +16,7 @@ public class MasterPageCommand extends FrontCommand {
         HttpSession session = request.getSession();
         String role = (String) session.getAttribute("role");
 
-        if ("Admin".equals(role) || "Client".equals(role)) {
+        if (role == null || "Admin".equals(role) || "Client".equals(role)) {
             if (session.getAttribute("masters") == null) {
                 UserService userService = new UserService();
                 session.setAttribute("masters", userService.findAllMasters());

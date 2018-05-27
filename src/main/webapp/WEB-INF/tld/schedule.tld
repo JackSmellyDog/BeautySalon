@@ -18,6 +18,10 @@
             <name>masterId</name>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
+        <attribute>
+            <name>clientId</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
     </tag>
     <!-- Invoke 'Generate' action to add tags or functions -->
 
