@@ -17,16 +17,29 @@
                 <li><a href="/app?command=RequestPage"><fmt:message key="label.requests"/></a></li>
             </c:if>
 
-            <li><a href="/app?command=AddRequest"><fmt:message key="label.new.request"/></a></li>
+            <c:if test="${role == 'Client'}">
+                <li><a href="/app?command=AddRequest"><fmt:message key="label.new.request"/></a></li>
+            </c:if>
 
-
-            <li><a href="/app?command=ReviewPage"><fmt:message key="label.reviews"/></a></li>
-            <li><a href="/app?command=AddReview"><fmt:message key="label.new.review"/></a></li>
+            <c:if test="${role == 'Admin'}">
+                <li><a href="/app?command=ReviewPage"><fmt:message key="label.reviews"/></a></li>
+            </c:if>
+            <%--<li><a href="/app?command=AddReview"><fmt:message key="label.new.review"/></a></li>--%>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
             <c:choose>
                 <c:when test="${user != null}">
+                    <li>
+                        <a href="#">
+                            <span class="text-danger text-uppercase h5">${role}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="text-info">${user.login}</span>
+                        </a>
+                    </li>
                     <li><a href="/app?command=Logout"><fmt:message key="button.logout"/></a></li>
                 </c:when>
                 <c:otherwise>

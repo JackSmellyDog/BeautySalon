@@ -6,11 +6,14 @@ import com.kpi.salon.model.Client;
 import com.kpi.salon.model.Master;
 import com.kpi.salon.model.Request;
 import com.kpi.salon.model.Status;
+import com.kpi.salon.utils.ResourcesManager;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import static com.kpi.salon.model.Status.ACTIVE;
 import static com.kpi.salon.model.Status.CANCELED;
@@ -20,37 +23,21 @@ public class RequestDao implements IRequestDao {
     private static final Logger LOGGER = Logger.getLogger(RequestDao.class);
 
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
-    //private static final String ALL_REQUESTS_QUERY = "SELECT * FROM beauty_requests";
-    //private static final String REQUESTS_BY_MASTER_QUERY = "SELECT * FROM beauty_requests WHERE master_id=?";
-    private static final String INSERT_REQUEST_QUERY = "INSERT INTO beauty_requests (appointment_time, client_id, master_id, status_id) VALUES (?, ?, ?, ?)";
-    private static final String ALL_REQUESTS_QUERY = "SELECT br.id AS id, br.appointment_time AS time, bc.id AS c_id, bc.login AS c_login, bc.password AS c_password, bm.id AS m_id, bm.login AS m_login, bm.password AS m_password, bm.name AS m_name, bm.description AS description, status_id\n" +
-            "FROM beauty_requests br\n" +
-            "INNER JOIN beauty_clients bc ON br.client_id = bc.id\n" +
-            "INNER JOIN beauty_masters bm ON br.master_id = bm.id;";
+    private Properties queries;
 
-    private static final String REQUESTS_BY_MASTER_QUERY = "SELECT br.id AS id, br.appointment_time AS time, bc.id AS c_id, bc.login AS c_login, bc.password AS c_password, bm.id AS m_id, bm.login AS m_login, bm.password AS m_password, bm.name AS m_name, bm.description AS description, status_id\n" +
-            "FROM beauty_requests br\n" +
-            "INNER JOIN beauty_clients bc ON br.client_id = bc.id\n" +
-            "INNER JOIN beauty_masters bm ON br.master_id = bm.id\n" +
-            "WHERE bm.id = ?;";
-
-    private static final String REQUESTS_BY_CLIENT_QUERY = "SELECT br.id AS id, br.appointment_time AS time, bc.id AS c_id, bc.login AS c_login, bc.password AS c_password, bm.id AS m_id, bm.login AS m_login, bm.password AS m_password, bm.name AS m_name, bm.description AS description, status_id\n" +
-            "FROM beauty_requests br\n" +
-            "INNER JOIN beauty_clients bc ON br.client_id = bc.id\n" +
-            "INNER JOIN beauty_masters bm ON br.master_id = bm.id\n" +
-            "WHERE bc.id = ?;";
-
-
-    private static final String UPDATE_REQUEST_STATUS = "UPDATE beauty_requests SET status_id=? WHERE id=?";
+    public RequestDao() {
+        init();
+    }
 
     @Override
     public List<Request> findAll() {
         List<Request> requests = new ArrayList<>();
+        String query = queries.getProperty("sql.request.find.all");
 
         try(Connection connection = connectionManager.getConnection();
             Statement statement = connection.createStatement()
         ){
-            ResultSet resultSet = statement.executeQuery(ALL_REQUESTS_QUERY);
+            ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()){
                 Client client = new Client(
                         resultSet.getLong("c_id"),
@@ -78,7 +65,7 @@ public class RequestDao implements IRequestDao {
                 ));
             }
 
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
 
@@ -92,7 +79,6 @@ public class RequestDao implements IRequestDao {
 
     @Override
     public Request findById(Long id) {
-        // TODO maybe change it
         return findAll().stream()
                 .filter(request -> request.getId().longValue() == id)
                 .findFirst()
@@ -101,8 +87,10 @@ public class RequestDao implements IRequestDao {
 
     @Override
     public boolean insert(Request item) {
+        String query = queries.getProperty("sql.request.insert");
+
         try(Connection connection = connectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_REQUEST_QUERY)
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
         ){
             preparedStatement.setTimestamp(1, Timestamp.valueOf(item.getDate()));
             preparedStatement.setLong(2, item.getClient().getId());
@@ -114,7 +102,7 @@ public class RequestDao implements IRequestDao {
             preparedStatement.executeUpdate();
             return true;
 
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
             return false;
         }
@@ -127,7 +115,7 @@ public class RequestDao implements IRequestDao {
 
     @Override
     public List<Request> findByMaster(Long masterId) {
-        return findByUser(masterId, REQUESTS_BY_MASTER_QUERY);
+        return findByUser(masterId, queries.getProperty("sql.request.find.by.master"));
     }
 
     @Override
@@ -137,7 +125,7 @@ public class RequestDao implements IRequestDao {
 
     @Override
     public List<Request> findByClient(Long clientId) {
-        return findByUser(clientId, REQUESTS_BY_CLIENT_QUERY);
+        return findByUser(clientId, queries.getProperty("sql.request.find.by.client"));
     }
 
     @Override
@@ -147,8 +135,10 @@ public class RequestDao implements IRequestDao {
 
     @Override
     public boolean updateStatus(Request request, Status status) {
+        String query = queries.getProperty("sql.request.update");
+
         try(Connection connection = connectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_REQUEST_STATUS)
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
         ){
             int status_id = (status == ACTIVE)? 1 : ((status == DONE)? 2 : 3);
             preparedStatement.setInt(1, status_id);
@@ -159,7 +149,7 @@ public class RequestDao implements IRequestDao {
             LOGGER.info(request.getId());
             return true;
 
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
             return false;
         }
@@ -175,7 +165,6 @@ public class RequestDao implements IRequestDao {
             preparedStatement.setLong(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-
             while (resultSet.next()){
 
                 Long status_id = resultSet.getLong("status_id");
@@ -204,10 +193,18 @@ public class RequestDao implements IRequestDao {
                 ));
             }
 
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
 
         return requests;
+    }
+
+    private void init() {
+        try {
+            queries = new ResourcesManager().getProperties("queries");
+        } catch (IOException e) {
+            LOGGER.error(String.format("Unable to download property file. %s", e.getMessage()), e);
+        }
     }
 }

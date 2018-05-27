@@ -30,7 +30,6 @@ public class ScheduleTag extends SimpleTagSupport {
     }
 
 
-
     @Override
     public void doTag() throws JspException, IOException {
         JspWriter out = getJspContext().getOut();
@@ -99,7 +98,6 @@ public class ScheduleTag extends SimpleTagSupport {
                 .append(thead)
                 .append(tbody)
                 .append("</table>");
-
 
         out.print(builder.toString());
     }

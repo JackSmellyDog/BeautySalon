@@ -2,14 +2,14 @@ package com.kpi.salon.services.impl;
 
 import com.google.gson.Gson;
 import com.kpi.salon.services.ISmsService;
+import com.kpi.salon.utils.ResourcesManager;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 public class SmsService implements ISmsService {
@@ -20,8 +20,8 @@ public class SmsService implements ISmsService {
 
     public SmsService() {
         try {
-            Properties properties = new Properties();
-            properties.load(new FileReader(loadResources()));
+            ResourcesManager resourcesManager = new ResourcesManager();
+            Properties properties = resourcesManager.getProperties("sms");
             apiKey = properties.getProperty("x.api.key");
 
         } catch (IOException e) {
@@ -64,10 +64,5 @@ public class SmsService implements ISmsService {
             this.msisdn = msisdn;
             this.reference = UUID.randomUUID().toString().substring(0, 13);
         }
-    }
-
-    private File loadResources() {
-        ClassLoader classLoader = getClass().getClassLoader();
-        return new File(classLoader.getResource("sms.properties").getFile());
     }
 }

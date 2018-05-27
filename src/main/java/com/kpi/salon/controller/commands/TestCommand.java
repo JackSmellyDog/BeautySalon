@@ -6,6 +6,7 @@ import com.kpi.salon.services.impl.EmailService;
 import com.kpi.salon.services.impl.SmsService;
 import com.kpi.salon.services.impl.UserService;
 import com.kpi.salon.services.impl.ValidationService;
+import com.kpi.salon.utils.ResourcesManager;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -25,10 +26,8 @@ public class TestCommand extends FrontCommand {
 
 //        ValidationService validationService = new ValidationService();
 
-        for (int i = 0; i < 1000; i++) {
-            System.out.println(i);
-        }
+        new ResourcesManager();
 
-        forward("test");
+        //forward("test");
     }
 }

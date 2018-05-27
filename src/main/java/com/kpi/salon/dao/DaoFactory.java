@@ -1,5 +1,6 @@
 package com.kpi.salon.dao;
 
+import com.kpi.salon.dao.IDao;
 import com.kpi.salon.dao.impl.AdminDao;
 import com.kpi.salon.dao.impl.ClientDao;
 import com.kpi.salon.dao.impl.MasterDao;

@@ -22,9 +22,6 @@ public class AddReviewCommand extends FrontCommand {
 
             Request req = (Request) session.getAttribute("for_review");
 
-            // TODO delete this
-            LOGGER.info(req);
-
             String text = request.getParameter("text");
             Integer rating = Integer.parseInt(request.getParameter("rating"));
 

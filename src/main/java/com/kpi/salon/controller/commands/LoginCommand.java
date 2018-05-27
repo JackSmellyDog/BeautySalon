@@ -27,18 +27,19 @@ public class LoginCommand extends FrontCommand {
 
                 String role = user.getClass().getSimpleName();
 
-                // TODO uncomment this method
+
                 if ("Admin".equals(role)) {
                     Admin admin = (Admin) user;
 
-//                ValidationService validationService = new ValidationService();
-//                String validationCode = validationService.validationCode();
-//
-//                session.setAttribute("validationCode", validationCode);
+                    ValidationService validationService = new ValidationService();
+                    String validationCode = validationService.validationCode();
+
+                    session.setAttribute("validationCode", validationCode);
                     session.setAttribute("unconfirmedUser", user);
-//
-//                SmsService smsService = new SmsService();
-//                smsService.sendSms(validationCode, admin.getPhone());
+
+                    // TODO uncomment this method
+//                    SmsService smsService = new SmsService();
+//                    smsService.sendSms(validationCode, admin.getPhone());
 
                     forward("code");
 

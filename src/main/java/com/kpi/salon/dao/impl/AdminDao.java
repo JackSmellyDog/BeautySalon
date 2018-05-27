@@ -4,27 +4,34 @@ import com.kpi.salon.dao.IAdminDao;
 import com.kpi.salon.datasource.ConnectionManager;
 import com.kpi.salon.model.Admin;
 import com.kpi.salon.model.Master;
+import com.kpi.salon.utils.ResourcesManager;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class AdminDao implements IAdminDao {
     private static final Logger LOGGER = Logger.getLogger(Admin.class);
 
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
-    private static final String ALL_ADMINS_QUERY = "SELECT * FROM beauty_admins";
-    private static final String BY_USERNAME_QUERY = "SELECT * FROM beauty_admins WHERE login='%s'";
+    private Properties queries;
+
+    public AdminDao() {
+        init();
+    }
 
     @Override
     public List<Admin> findAll() {
         List<Admin> admins = new ArrayList<>();
+        String query = queries.getProperty("sql.admin.find.all");
 
         try(Connection connection = connectionManager.getConnection();
             Statement statement = connection.createStatement()
         ){
-            ResultSet resultSet = statement.executeQuery(ALL_ADMINS_QUERY);
+            ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()){
                 admins.add(new Admin(
                         resultSet.getLong("id"),
@@ -34,7 +41,7 @@ public class AdminDao implements IAdminDao {
                 ));
             }
 
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
 
@@ -48,7 +55,7 @@ public class AdminDao implements IAdminDao {
 
     @Override
     public Admin findById(Long id) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -64,14 +71,14 @@ public class AdminDao implements IAdminDao {
     @Override
     public Admin findByUsername(String username) {
         Admin admin = null;
+        String query = queries.getProperty("sql.admin.find.by.username");
+
         try(Connection connection = connectionManager.getConnection();
-            Statement statement = connection.createStatement()
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
         ){
 
-            ResultSet resultSet = statement.executeQuery(String.format(
-                    BY_USERNAME_QUERY,
-                    username
-            ));
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()){
                 admin = new Admin(
@@ -81,9 +88,17 @@ public class AdminDao implements IAdminDao {
                         resultSet.getString("phone")
                 );
             }
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
         return admin;
+    }
+
+    private void init() {
+        try {
+            queries = new ResourcesManager().getProperties("queries");
+        } catch (IOException e) {
+            LOGGER.error(String.format("Unable to download property file. %s", e.getMessage()), e);
+        }
     }
 }

@@ -3,34 +3,39 @@ package com.kpi.salon.dao.impl;
 import com.kpi.salon.dao.IMasterDao;
 import com.kpi.salon.datasource.ConnectionManager;
 import com.kpi.salon.model.Master;
+import com.kpi.salon.utils.ResourcesManager;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class MasterDao implements IMasterDao {
     private static final Logger LOGGER = Logger.getLogger(MasterDao.class);
 
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
-    private static final String ALL_MASTERS_QUERY = "SELECT * FROM beauty_masters";
-    private static final String BY_USERNAME_QUERY = "SELECT * FROM beauty_masters WHERE login='%s'";
-    private static final String DELETE_BY_ID_QUERY = "DELETE FROM beauty_masters WHERE id=?";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM beauty_masters WHERE id=?";
-    private static final String INSERT_MASTER_QUERY = "INSERT INTO beauty_masters (login, password, name, description) VALUES (?, ?, ?, ?)";
+    private Properties queries;
 
     private static final int LOGIN_COLUMN = 1;
     private static final int PASSWORD_COLUMN = 2;
     private static final int NAME_COLUMN = 3;
     private static final int DESCRIPTION_COLUMN = 4;
+
+    public MasterDao() {
+        init();
+    }
+
     @Override
     public List<Master> findAll() {
         List<Master> masters = new ArrayList<>();
+        String query = queries.getProperty("sql.master.find.all");
 
         try(Connection connection = connectionManager.getConnection();
             Statement statement = connection.createStatement()
         ){
-            ResultSet resultSet = statement.executeQuery(ALL_MASTERS_QUERY);
+            ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()){
                 masters.add(new Master(
                         resultSet.getLong("id"),
@@ -41,7 +46,7 @@ public class MasterDao implements IMasterDao {
                 ));
             }
 
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
 
@@ -50,14 +55,16 @@ public class MasterDao implements IMasterDao {
 
     @Override
     public boolean deleteById(Long id) {
+        String query = queries.getProperty("sql.master.delete.by.id");
+
         try(Connection connection = connectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY)
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
         ){
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
             return true;
 
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
             return false;
         }
@@ -66,8 +73,10 @@ public class MasterDao implements IMasterDao {
     @Override
     public Master findById(Long id) {
         Master master = null;
+        String query = queries.getProperty("sql.master.find.by.id");
+
         try(Connection connection = connectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
         ){
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -82,7 +91,7 @@ public class MasterDao implements IMasterDao {
                 );
             }
 
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
 
@@ -92,8 +101,10 @@ public class MasterDao implements IMasterDao {
 
     @Override
     public boolean insert(Master item) {
+        String query = queries.getProperty("sql.master.insert");
+
         try(Connection connection = connectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_MASTER_QUERY)
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
         ){
             preparedStatement.setString(LOGIN_COLUMN, item.getLogin());
             preparedStatement.setString(PASSWORD_COLUMN, item.getPassword());
@@ -102,7 +113,7 @@ public class MasterDao implements IMasterDao {
             preparedStatement.executeUpdate();
             return true;
 
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
             return false;
         }
@@ -116,14 +127,14 @@ public class MasterDao implements IMasterDao {
     @Override
     public Master findByUsername(String username) {
         Master master = null;
+        String query = queries.getProperty("sql.master.find.by.username");
+
         try(Connection connection = connectionManager.getConnection();
-            Statement statement = connection.createStatement()
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
         ){
 
-            ResultSet resultSet = statement.executeQuery(String.format(
-                    BY_USERNAME_QUERY,
-                    username
-            ));
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()){
                 master = new Master(
@@ -134,9 +145,17 @@ public class MasterDao implements IMasterDao {
                         resultSet.getString("description")
                 );
             }
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
         return master;
+    }
+
+    private void init() {
+        try {
+            queries = new ResourcesManager().getProperties("queries");
+        } catch (IOException e) {
+            LOGGER.error(String.format("Unable to download property file. %s", e.getMessage()), e);
+        }
     }
 }

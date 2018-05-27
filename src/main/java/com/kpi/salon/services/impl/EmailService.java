@@ -1,15 +1,15 @@
 package com.kpi.salon.services.impl;
 
 import com.kpi.salon.services.IEmailService;
+import com.kpi.salon.utils.ResourcesManager;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
 import org.apache.log4j.Logger;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 
 public class EmailService implements IEmailService {
@@ -24,8 +24,8 @@ public class EmailService implements IEmailService {
 
     public EmailService() {
         try {
-            Properties properties = new Properties();
-            properties.load(new FileReader(loadResources()));
+            ResourcesManager resourcesManager = new ResourcesManager();
+            Properties properties = resourcesManager.getProperties("email");
 
             user = properties.getProperty("user");
             password = properties.getProperty("password");
@@ -57,10 +57,5 @@ public class EmailService implements IEmailService {
         } catch(Exception e){
             LOGGER.error(String.format("Unable to send email %s", to), e);
         }
-    }
-
-    private File loadResources() {
-        ClassLoader classLoader = getClass().getClassLoader();
-        return new File(classLoader.getResource("email.properties").getFile());
     }
 }

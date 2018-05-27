@@ -39,10 +39,16 @@ public class CompleteRequestCommand extends FrontCommand {
                 String subject = "Leave a review";
                 String message = String.format("http://localhost:8080/app?command=AddReview&id=%d", id);
 
-                //emailService.send(subject, message, user.getLogin());
+                emailService.send(subject, message, req.getClient().getLogin());
 
                 // TODO change maybe
-                session.setAttribute("requests", requestService.findAllRequests());
+                if ("Admin".equals(user.getClass().getSimpleName())) {
+                    session.setAttribute("requests", requestService.findAllRequests());
+                } else if ("Master".equals(user.getClass().getSimpleName())) {
+                    session.setAttribute("requests", requestService.findRequestsByMaster(user.getId()));
+                } else {
+                    session.removeAttribute("requests");
+                }
 
                 forward("requests");
             } else {

@@ -40,8 +40,8 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-9">
-                <c:forEach var="master" items="${masters}">
-                    <div id="schedule_${master.id}" <%--class="${master.id == chosen_master_id ? 'visible' : 'hidden'}"--%>>
+                <c:forEach var="master" items="${masters}" varStatus="loop">
+                    <div id="schedule_${master.id}" class="${chosen_master_id == null and loop.index == 0? 'visible' : master.id == chosen_master_id? 'visible' : 'hidden'}">
                         <mct:schedule masterId="${master.id}"/>
                     </div>
                 </c:forEach>
@@ -52,8 +52,12 @@
                     <div class="form-group">
                         <label for="master_id">Master: </label>
                         <select name="master_id" id="master_id" class="form-control">
-                            <c:forEach var="master" items="${masters}">
-                                <option value="${master.id}">
+                            <c:forEach var="master" items="${masters}" varStatus="loop">
+                                <option value="${master.id}"
+                                    <c:if test="${(chosen_master_id == null and loop.index == 0) or master.id == chosen_master_id}">
+                                        selected
+                                    </c:if>
+                                >
                                         ${master.name}
                                 </option>
                             </c:forEach>

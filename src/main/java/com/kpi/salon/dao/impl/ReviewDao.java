@@ -5,13 +5,12 @@ import com.kpi.salon.dao.IReviewsDao;
 import com.kpi.salon.datasource.ConnectionManager;
 import com.kpi.salon.model.Request;
 import com.kpi.salon.model.Review;
+import com.kpi.salon.utils.ResourcesManager;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.kpi.salon.dao.DaoFactory.Entity.REQUEST;
 
@@ -26,6 +25,11 @@ public class ReviewDao implements IReviewsDao {
 
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
     private RequestDao requestDao = (RequestDao) DaoFactory.create(REQUEST);
+    private Properties queries;
+
+    public ReviewDao() {
+        init();
+    }
 
 
     @Override
@@ -153,5 +157,13 @@ public class ReviewDao implements IReviewsDao {
         }
 
         return review;
+    }
+
+    private void init() {
+        try {
+            queries = new ResourcesManager().getProperties("queries");
+        } catch (IOException e) {
+            LOGGER.error(String.format("Unable to download property file. %s", e.getMessage()), e);
+        }
     }
 }

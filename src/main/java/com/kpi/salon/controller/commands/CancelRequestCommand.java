@@ -25,7 +25,15 @@ public class CancelRequestCommand extends FrontCommand {
             Request req = requestService.findRequestById(id);
 
             if (req != null && requestService.markAsCanceled(req)) {
-                session.setAttribute("requests", requestService.findAllRequests());
+
+                if ("Admin".equals(user.getClass().getSimpleName())) {
+                    session.setAttribute("requests", requestService.findAllRequests());
+                } else if ("Master".equals(user.getClass().getSimpleName())) {
+                    session.setAttribute("requests", requestService.findRequestsByMaster(user.getId()));
+                } else if ("Client".equals(user.getClass().getSimpleName())) {
+                    session.setAttribute("requests", requestService.findRequestsByClient(user.getId()));
+                }
+
                 forward("requests");
             } else {
                 throw new RequestFailException("Unable to change status");

@@ -3,34 +3,33 @@ package com.kpi.salon.dao.impl;
 import com.kpi.salon.dao.IClientDao;
 import com.kpi.salon.datasource.ConnectionManager;
 import com.kpi.salon.model.Client;
+import com.kpi.salon.utils.ResourcesManager;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class ClientDao implements IClientDao {
     private static final Logger LOGGER = Logger.getLogger(ClientDao.class);
-
-
     private ConnectionManager connectionManager = ConnectionManager.getInstance();
-    private static final String BY_USERNAME_QUERY = "SELECT * FROM beauty_clients WHERE login='%s'";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM beauty_clients WHERE id=?";
-    private static final String INSERT_USER_QUERY = "INSERT INTO beauty_clients (login, password) VALUES (?, ?)";
-    private static final String ALL_USERS_QUERY = "SELECT * FROM beauty_clients";
+    private Properties queries;
 
-    private static final int LOGIN_COLUMN = 1;
-    private static final int PASSWORD_COLUMN = 2;
-
+    public ClientDao() {
+        init();
+    }
 
     @Override
     public List<Client> findAll() {
         List<Client> clients = new ArrayList<>();
+        String query = queries.getProperty("sql.client.find.all");
 
         try(Connection connection = connectionManager.getConnection();
             Statement statement = connection.createStatement()
         ){
-            ResultSet resultSet = statement.executeQuery(ALL_USERS_QUERY);
+            ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()){
                 clients.add(new Client(
@@ -40,7 +39,7 @@ public class ClientDao implements IClientDao {
                 ));
             }
 
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
         return clients;
@@ -54,8 +53,10 @@ public class ClientDao implements IClientDao {
     @Override
     public Client findById(Long id) {
         Client client = null;
+        String query = queries.getProperty("sql.client.find.by.id");
+
         try(Connection connection = connectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
         ){
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -68,7 +69,7 @@ public class ClientDao implements IClientDao {
                 );
             }
 
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
 
@@ -77,15 +78,17 @@ public class ClientDao implements IClientDao {
 
     @Override
     public boolean insert(Client item) {
+        String query = queries.getProperty("sql.client.insert");
+
         try(Connection connection = connectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_QUERY)
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
         ){
-            preparedStatement.setString(LOGIN_COLUMN, item.getLogin());
-            preparedStatement.setString(PASSWORD_COLUMN, item.getPassword());
+            preparedStatement.setString(1, item.getLogin());
+            preparedStatement.setString(2, item.getPassword());
             preparedStatement.executeUpdate();
             return true;
 
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
             return false;
         }
@@ -99,14 +102,14 @@ public class ClientDao implements IClientDao {
     @Override
     public Client findByUsername(String username) {
         Client client = null;
+        String query = queries.getProperty("sql.client.find.by.username");
+
         try(Connection connection = connectionManager.getConnection();
-            Statement statement = connection.createStatement()
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
         ){
 
-            ResultSet resultSet = statement.executeQuery(String.format(
-                    BY_USERNAME_QUERY,
-                    username
-            ));
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()){
                 client = new Client(
@@ -115,9 +118,17 @@ public class ClientDao implements IClientDao {
                         resultSet.getString("password")
                 );
             }
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
         return client;
+    }
+
+    private void init() {
+        try {
+            queries = new ResourcesManager().getProperties("queries");
+        } catch (IOException e) {
+            LOGGER.error(String.format("Unable to download property file. %s", e.getMessage()), e);
+        }
     }
 }

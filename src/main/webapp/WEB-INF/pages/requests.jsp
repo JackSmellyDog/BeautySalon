@@ -55,7 +55,10 @@
                 <c:choose>
                     <c:when test="${request.status == 'ACTIVE'}">
                         <p class="text-success">${request.status}</p>
-                        <a href="/app?command=CompleteRequest&id=${request.id}" class="h6">Complete</a> |
+                        <c:if test="${role != null and role != 'Client'}">
+                            <a href="/app?command=CompleteRequest&id=${request.id}" class="h6">Complete</a> |
+                        </c:if>
+
                         <a href="/app?command=CancelRequest&id=${request.id}" class="h6">Cancel</a>
                     </c:when>
                     <c:when test="${request.status == 'DONE'}">
