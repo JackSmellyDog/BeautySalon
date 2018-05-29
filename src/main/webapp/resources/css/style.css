@@ -39,3 +39,10 @@
     background:#DB8A8A;
 }
 
+.hidden {
+    visibility: hidden;
+}
+.visible {
+    visibility: visible;
+}
+

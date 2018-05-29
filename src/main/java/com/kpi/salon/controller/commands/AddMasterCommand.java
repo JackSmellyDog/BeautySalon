@@ -48,7 +48,7 @@ public class AddMasterCommand extends FrontCommand {
 
             UserService userService = new UserService();
 
-            if (userService.addMaster(username, password, confirmPassword, name, description, filename)) {
+            if (!userService.addMaster(username, password, confirmPassword, name, description, filename)) {
                 throw new InvalidUserDataException();
             }
             request.getSession().setAttribute("masters", userService.findAllMasters());

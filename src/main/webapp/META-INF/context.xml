@@ -4,7 +4,7 @@
     <Resource
             name="jdbc/db" type="javax.sql.DataSource"
             maxActive="100" maxIdle="30" maxWait="10000"
-            url="jdbc:mysql://127.0.0.1:3306/EPAM_BEAUTY"
+            url="jdbc:mysql://127.0.0.1:3306/BEAUTY_SALON"
             driverClassName="com.mysql.jdbc.Driver"
             username="root" password="root"
     />

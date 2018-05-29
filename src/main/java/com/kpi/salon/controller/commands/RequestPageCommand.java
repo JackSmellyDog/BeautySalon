@@ -14,7 +14,6 @@ import java.util.List;
 
 public class RequestPageCommand extends FrontCommand {
     private static final Logger LOGGER = Logger.getLogger(RequestPageCommand.class);
-    private static final int ITEMS_PER_PAGE = 7;
 
     @Override
     public void process() throws ServletException, IOException {
@@ -41,8 +40,6 @@ public class RequestPageCommand extends FrontCommand {
 
             String page = request.getParameter("page");
             request.setAttribute("page", (page == null)? 1 : page);
-            request.setAttribute("itemsPerPage", ITEMS_PER_PAGE);
-
 
             forward("requests");
         } else {

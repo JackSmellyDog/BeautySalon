@@ -12,6 +12,10 @@
         <jsp:include page="/WEB-INF/pages/footer.jsp"/>
     </jsp:attribute>
     <jsp:body>
+        <c:set var="page" value="${page == null? 1 : page}"/>
+        <c:set var="itemsAmount" value="${amount == null? 1 : amount}"/>
+        <c:set var="itemsPerPage" value="5"/>
+        <c:set var="endPageNumber" value="${itemsAmount % itemsPerPage == 0? itemsAmount / itemsPerPage : itemsAmount / itemsPerPage + 1}"/>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -83,7 +87,7 @@
                             Previous
                         </a>
                     </li>
-                    <c:set var="endPageNumber" value="${amount % itemsPerPage == 0? amount / itemsPerPage : amount / itemsPerPage + 1}"/>
+
                     <c:choose>
                         <c:when test="${amount / itemsPerPage <= 10}">
                             <c:forEach var="i"
