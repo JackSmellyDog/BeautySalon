@@ -43,4 +43,9 @@
         <location>/WEB-INF/pages/unknown.jsp</location>
     </error-page>
 
+    <context-param>
+        <param-name>uploadDirectory</param-name>
+        <param-value>/home/andrii/IdeaProjects/BeautySalon/target/com.kpi.salon/resources/img/avatars</param-value>
+    </context-param>
+
 </web-app>

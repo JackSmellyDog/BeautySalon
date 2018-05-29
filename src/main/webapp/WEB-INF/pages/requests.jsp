@@ -27,7 +27,8 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="request" items="${requests}">
+
+            <c:forEach var="request" items="${requests}" begin="${(page-1) * itemsPerPage}" end="${page * itemsPerPage - 1}">
                 <tr>
                     <td>${request.id}</td>
                     <td>
@@ -72,5 +73,39 @@
             </c:forEach>
             </tbody>
         </table>
+
+        <div class="row">
+            <div class="col-xs-6 col-xs-offset-4">
+            <nav aria-label="Page navigation example" >
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="/app?command=RequestPage&page=${page > 1? page - 1 : page}">
+                            Previous
+                        </a>
+                    </li>
+                    <c:set var="endPageNumber" value="${amount % itemsPerPage == 0? amount / itemsPerPage : amount / itemsPerPage + 1}"/>
+                    <c:choose>
+                        <c:when test="${amount / itemsPerPage <= 10}">
+                            <c:forEach var="i"
+                                       begin="1"
+                                       end="${endPageNumber}">
+                                <li class="page-item"><a class="page-link" href="/app?command=RequestPage&page=${i}">${i}</a></li>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                                <li class="page-item"><a class="page-link" href="#">...</a></li>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <li class="page-item">
+                        <a class="page-link" href="/app?command=RequestPage&page=${page >= 1 and page < endPageNumber - 1 ? page + 1 : page}">
+                            Next
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            </div>
+        </div>
+
     </jsp:body>
 </t:genericpage>

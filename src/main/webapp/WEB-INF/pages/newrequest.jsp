@@ -74,6 +74,7 @@
                         </div>
                     </div>
 
+                    <p class="text-danger">${error}</p>
                     <button type="submit" class="btn btn-info"><fmt:message key="button.add"/></button>
 
                 </form>

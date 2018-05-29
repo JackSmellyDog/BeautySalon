@@ -1,33 +1,42 @@
 package com.kpi.salon.controller.commands;
 
-import com.kpi.salon.model.Admin;
-import com.kpi.salon.services.IEmailService;
-import com.kpi.salon.services.impl.EmailService;
-import com.kpi.salon.services.impl.SmsService;
-import com.kpi.salon.services.impl.UserService;
-import com.kpi.salon.services.impl.ValidationService;
-import com.kpi.salon.utils.ResourcesManager;
+
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
-import java.io.IOException;
-import java.io.PrintWriter;
+import javax.servlet.http.Part;
+import java.io.*;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 
 public class TestCommand extends FrontCommand {
+
+    private static final Logger LOGGER = Logger.getLogger(TestCommand.class);
     @Override
     public void process() throws ServletException, IOException {
-//        EmailService emailService = new EmailService();
-//        emailService.send("dron.sh1@gmail.com");
-//
-//        SmsService smsService = new SmsService();
-//        smsService.sendSms("4444", "380631066143");
-//
+        if ("POST".equalsIgnoreCase(request.getMethod())) {
 
-//        ValidationService validationService = new ValidationService();
+            Part filePart = request.getPart("avatar"); // Retrieves <input type="file" name="file">
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
+            InputStream fileContent = filePart.getInputStream();
 
-        new ResourcesManager();
+            byte[] buffer = new byte[fileContent.available()];
+            fileContent.read(buffer);
 
-        //forward("test");
+            String directory = context.getInitParameter("uploadDirectory");
+
+            LOGGER.info(directory);
+
+            File targetFile = new File(directory + "/test.png");
+            OutputStream outStream = new FileOutputStream(targetFile);
+            outStream.write(buffer);
+
+            LOGGER.info(fileName);
+
+
+        } else {
+            forward("test");
+        }
     }
 }

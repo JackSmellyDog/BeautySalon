@@ -3,6 +3,9 @@ package com.kpi.salon.services.impl;
 import com.kpi.salon.services.IValidationService;
 import org.apache.log4j.Logger;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+
 public class ValidationService implements IValidationService {
     private static final Logger LOGGER = Logger.getLogger(ValidationService.class);
 
@@ -27,6 +30,24 @@ public class ValidationService implements IValidationService {
     @Override
     public boolean isConfirmationPassMatched(String password, String confirmPassword) {
         return password != null && password.equals(confirmPassword) ;
+    }
+
+    @Override
+    public boolean isRequestDateValid(LocalDateTime dateTime) {
+        final int ACCEPTABLE_NUMBER_OF_DAYS = 14;
+        final int START_HOUR = 9;
+        final int END_HOUR = 17;
+
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        return !(dateTime == null ||
+                dateTime.isBefore(currentDate) ||
+                dateTime.isAfter(currentDate.plusDays(ACCEPTABLE_NUMBER_OF_DAYS)) ||
+                dateTime.getDayOfWeek() == DayOfWeek.SATURDAY ||
+                dateTime.getDayOfWeek() == DayOfWeek.SUNDAY ||
+                dateTime.getHour() > END_HOUR ||
+                dateTime.getHour() < START_HOUR ||
+                dateTime.getMinute() != 0);
     }
 
     @Override

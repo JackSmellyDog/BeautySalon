@@ -10,6 +10,13 @@
         <jsp:include page="/WEB-INF/pages/footer.jsp"/>
     </jsp:attribute>
     <jsp:body>
-        <p>Fuck it!!!!</p>
+        <form method="post" action="/app?command=Test" enctype="multipart/form-data">
+            <input type="file" name="avatar" size="50">
+            <input type="submit" value="upload">
+        </form>
+
+
+
+
     </jsp:body>
 </t:genericpage>

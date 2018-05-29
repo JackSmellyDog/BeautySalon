@@ -1,5 +1,6 @@
 package com.kpi.salon.controller.commands;
 
+import com.kpi.salon.model.Request;
 import com.kpi.salon.model.User;
 import com.kpi.salon.services.IRequestService;
 import com.kpi.salon.services.impl.RequestService;
@@ -8,38 +9,40 @@ import org.apache.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RequestPageCommand extends FrontCommand {
     private static final Logger LOGGER = Logger.getLogger(RequestPageCommand.class);
+    private static final int ITEMS_PER_PAGE = 7;
 
     @Override
     public void process() throws ServletException, IOException {
         HttpSession session = request.getSession();
         String role = (String) session.getAttribute("role");
         User user = (User) session.getAttribute("user");
-
         IRequestService requestService = new RequestService();
 
+        List<Request> requests;
+
         if ("Admin".equals(role)) {
-
-            if (session.getAttribute("requests") == null) {
-                session.setAttribute("requests", requestService.findAllRequests());
-            }
-
-            forward("requests");
-
+            requests = requestService.findAllRequests();
         } else if ("Master".equals(role)) {
-
-            if (session.getAttribute("requests") == null) {
-                session.setAttribute("requests", requestService.findRequestsByMaster(user.getId()));
-            }
-
-            forward("requests");
+            requests = requestService.findRequestsByMaster(user.getId());
         } else if ("Client".equals(role)) {
+            requests = requestService.findRequestsByClient(user.getId());
+        } else {
+            requests = null;
+        }
 
-            if (session.getAttribute("requests") == null) {
-                session.setAttribute("requests", requestService.findRequestsByClient(user.getId()));
-            }
+        if (requests != null) {
+            session.setAttribute("requests", requests);
+            request.setAttribute("amount", requests.size());
+
+            String page = request.getParameter("page");
+            request.setAttribute("page", (page == null)? 1 : page);
+            request.setAttribute("itemsPerPage", ITEMS_PER_PAGE);
+
 
             forward("requests");
         } else {

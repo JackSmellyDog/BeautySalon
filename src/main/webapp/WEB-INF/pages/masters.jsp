@@ -39,7 +39,7 @@
 
                                 <c:if test="${role == 'Client'}">
                                     <td>
-                                        <a href="/app?command=AddRequest">
+                                        <a href="/app?command=AddRequest&id=${master.id}">
                                             <fmt:message key="button.make.order"/>
                                         </a>
                                     </td>
