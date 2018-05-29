@@ -58,10 +58,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean addMaster(String login, String password, String confirmationPassword, String name, String description)
+    public boolean addMaster(String login, String password, String confirmationPassword, String name, String description, String avatar)
             throws SuchUserIsExistException {
         validateRegistration(login, password, confirmationPassword);
-        return masterDao.insert(new Master(login, password, name, description));
+        return masterDao.insert(new Master(login, password, name, description, avatar));
     }
 
     @Override

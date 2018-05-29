@@ -18,6 +18,7 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
+                            <th>&nbsp;</th>
                             <th><fmt:message key="label.name"/></th>
                             <th><fmt:message key="label.login"/></th>
                             <th><fmt:message key="label.description"/></th>
@@ -33,6 +34,9 @@
                         <tbody>
                         <c:forEach var="master" items="${masters}">
                             <tr>
+                                <td>
+                                        <img src="resources/img/avatars/${master.avatarFilename}">
+                                </td>
                                 <td>${master.name}</td>
                                 <td>${master.login}</td>
                                 <td>${master.description}</td>
@@ -58,7 +62,7 @@
                 <c:if test="${role == 'Admin'}">
 
                     <div class="col-xs-4">
-                        <form method="post" action="/app?command=AddMaster">
+                        <form method="post" action="/app?command=AddMaster" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="username"><fmt:message key="label.username"/></label>
                                 <input type="email" name="username" id="username" class="form-control" placeholder="example@example.com">
@@ -80,12 +84,17 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="last_first_name"><fmt:message key="label.upload.avatar"/></label>
+                                <input type="file" name="avatar" accept=".png, .jpg, .jpeg" size="50">
+                            </div>
+
+                            <div class="form-group">
                                 <label for="description"><fmt:message key="label.short.info"/></label>
                                 <textarea name="description" id="description" class="form-control" rows="5"></textarea>
                             </div>
                             <button type="submit" class="btn btn-info"><fmt:message key="button.add"/></button>
                         </form>
-                        <div>${message}</div>
+                        <div class="text-danger">${error}</div>
                     </div>
 
                 </c:if>

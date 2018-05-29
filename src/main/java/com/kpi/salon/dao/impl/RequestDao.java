@@ -50,7 +50,8 @@ public class RequestDao implements IRequestDao {
                         resultSet.getString("m_login"),
                         resultSet.getString("m_password"),
                         resultSet.getString("m_name"),
-                        resultSet.getString("description")
+                        resultSet.getString("description"),
+                        resultSet.getString("avatar")
                 );
 
                 Long status_id = resultSet.getLong("status_id");
@@ -181,7 +182,8 @@ public class RequestDao implements IRequestDao {
                         resultSet.getString("m_login"),
                         resultSet.getString("m_password"),
                         resultSet.getString("m_name"),
-                        resultSet.getString("description")
+                        resultSet.getString("description"),
+                        resultSet.getString("avatar")
                 );
 
                 requests.add(new Request(

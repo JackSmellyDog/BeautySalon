@@ -28,7 +28,7 @@ public class TestCommand extends FrontCommand {
 
             LOGGER.info(directory);
 
-            File targetFile = new File(directory + "/test.png");
+            File targetFile = new File(directory + "test.png");
             OutputStream outStream = new FileOutputStream(targetFile);
             outStream.write(buffer);
 

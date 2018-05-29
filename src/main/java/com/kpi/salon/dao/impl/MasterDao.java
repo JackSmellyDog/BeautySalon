@@ -22,6 +22,7 @@ public class MasterDao implements IMasterDao {
     private static final int PASSWORD_COLUMN = 2;
     private static final int NAME_COLUMN = 3;
     private static final int DESCRIPTION_COLUMN = 4;
+    private static final int AVATAR_COLUMN = 5;
 
     public MasterDao() {
         init();
@@ -42,7 +43,8 @@ public class MasterDao implements IMasterDao {
                         resultSet.getString("login"),
                         resultSet.getString("password"),
                         resultSet.getString("name"),
-                        resultSet.getString("description")
+                        resultSet.getString("description"),
+                        resultSet.getString("avatar")
                 ));
             }
 
@@ -87,7 +89,8 @@ public class MasterDao implements IMasterDao {
                         resultSet.getString("login"),
                         resultSet.getString("password"),
                         resultSet.getString("name"),
-                        resultSet.getString("description")
+                        resultSet.getString("description"),
+                        resultSet.getString("avatar")
                 );
             }
 
@@ -110,6 +113,7 @@ public class MasterDao implements IMasterDao {
             preparedStatement.setString(PASSWORD_COLUMN, item.getPassword());
             preparedStatement.setString(NAME_COLUMN, item.getName());
             preparedStatement.setString(DESCRIPTION_COLUMN, item.getDescription());
+            preparedStatement.setString(AVATAR_COLUMN, item.getAvatarFilename());
             preparedStatement.executeUpdate();
             return true;
 
@@ -142,7 +146,8 @@ public class MasterDao implements IMasterDao {
                         resultSet.getString("login"),
                         resultSet.getString("password"),
                         resultSet.getString("name"),
-                        resultSet.getString("description")
+                        resultSet.getString("description"),
+                        resultSet.getString("avatar")
                 );
             }
         } catch (NullPointerException | SQLException e) {
