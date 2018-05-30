@@ -14,12 +14,12 @@
         <jsp:include page="/WEB-INF/pages/footer.jsp"/>
     </jsp:attribute>
     <jsp:body>
-        <div class="container">
+        <div class="container" style="min-height: 100%">
             <div class="row">
                 <div class="col-xs-9">
                     <c:forEach var="master" items="${masters}" varStatus="loop">
                         <div id="schedule_${master.id}" class="${chosen_master_id == null and loop.index == 0? 'visible' : master.id == chosen_master_id? 'visible' : 'hidden'}">
-                            <mct:schedule masterId="${master.id}" clientId="${user.id}"/>
+                            <mct:schedule masterId="${master.id}" clientId="${user.id}" lang="${lang}"/>
                         </div>
                     </c:forEach>
                 </div>

@@ -11,14 +11,18 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class ScheduleTag extends SimpleTagSupport {
     private static final Logger LOGGER = Logger.getLogger(ScheduleTag.class);
     private String masterId;
     private String clientId;
+    private String lang;
 
     private UserService userService = new UserService();
     private RequestService requestService = new RequestService();
@@ -39,6 +43,13 @@ public class ScheduleTag extends SimpleTagSupport {
         this.clientId = clientId;
     }
 
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
 
     @Override
     public void doTag() throws JspException, IOException {
@@ -50,6 +61,9 @@ public class ScheduleTag extends SimpleTagSupport {
         List<Request> requests = requestService.findRequestsByMaster(mId);
         LocalDateTime currentDate = LocalDateTime.now().withHour(0).withMinute(0);
 
+        String languageTag = lang == null? "EN" : ("UA".equals(lang)? "UK" : "EN");
+
+        Locale locale = Locale.forLanguageTag(languageTag);
 
         requests = requests.stream()
                 .filter(r -> r.getStatus() != Status.CANCELED)
@@ -88,16 +102,16 @@ public class ScheduleTag extends SimpleTagSupport {
 
         StringBuilder thead = new StringBuilder();
         thead.append("<thead>").append("<tr>")
-                .append("<th style='width: 9%'>").append("Time").append("</th>");
+                .append("<th style='width: 9%'>").append("#").append("</th>");
 
         for (int i = 0; i < 7; i++) {
             LocalDateTime date = currentDate.plusDays(i);
 
             thead.append("<th style='width: 13%'>")
-                    .append(date.getDayOfWeek().name()).append("<br>")
+                    .append(date.getDayOfWeek().getDisplayName(TextStyle.SHORT_STANDALONE, locale)).append("<br>")
                     .append("<p class='h6'>")
                         .append(date.getDayOfMonth()).append('-')
-                        .append(date.getMonth()).append('-')
+                        .append(date.getMonth().getDisplayName(TextStyle.SHORT_STANDALONE, locale)).append('-')
                         .append(date.getYear())
                     .append("</p>")
                     .append("</th>");
