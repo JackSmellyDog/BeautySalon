@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 
 public class AddMasterCommand extends FrontCommand {
     private static final Logger LOGGER = Logger.getLogger(AddMasterCommand.class);
+    private static final String DEFAULT_AVATAR = "avatar0.jpg";
 
     @Override
     public void process() throws ServletException, IOException {
@@ -24,27 +25,35 @@ public class AddMasterCommand extends FrontCommand {
             String description = request.getParameter("description");
 
             Part filePart = request.getPart("avatar");
+            String filename = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 
-            LocalDateTime localDateTime = LocalDateTime.now();
+            if (filename != null && !filename.isEmpty() && (filename.endsWith(".png") || filename.endsWith(".jpg"))) {
+                LocalDateTime localDateTime = LocalDateTime.now();
 
-            String filePrefix = String.format("%s%s%s",
-                    localDateTime.getSecond(),
-                    localDateTime.getMinute(),
-                    localDateTime.getDayOfMonth()
-            );
+                LOGGER.info(filename);
 
-            String filename = filePrefix + Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                String filePrefix = String.format("%s%s%s",
+                        localDateTime.getSecond(),
+                        localDateTime.getMinute(),
+                        localDateTime.getDayOfMonth()
+                );
 
-            InputStream fileContent = filePart.getInputStream();
+                filename = filePrefix + filename;
 
-            byte[] buffer = new byte[fileContent.available()];
-            fileContent.read(buffer);
+                InputStream fileContent = filePart.getInputStream();
 
-            String directory = context.getInitParameter("uploadDirectory");
+                byte[] buffer = new byte[fileContent.available()];
+                fileContent.read(buffer);
 
-            File targetFile = new File(directory + filename);
-            OutputStream outStream = new FileOutputStream(targetFile);
-            outStream.write(buffer);
+                String directory = context.getInitParameter("uploadDirectory");
+
+                File targetFile = new File(directory + filename);
+                OutputStream outStream = new FileOutputStream(targetFile);
+                outStream.write(buffer);
+
+            } else {
+                filename = DEFAULT_AVATAR;
+            }
 
             UserService userService = new UserService();
 

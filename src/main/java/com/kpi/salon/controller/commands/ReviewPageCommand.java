@@ -10,12 +10,18 @@ public class ReviewPageCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         HttpSession session = request.getSession();
-        ReviewService reviewService = new ReviewService();
+        String role = (String) session.getAttribute("role");
 
-        if (session.getAttribute("reviews") == null) {
+        if ("Admin".equals(role)) {
+            ReviewService reviewService = new ReviewService();
             session.setAttribute("reviews", reviewService.findAllReviews());
-        }
 
-        forward("reviews");
+            String page = request.getParameter("page");
+            request.setAttribute("page", (page == null)? 1 : page);
+
+            forward("reviews");
+        } else {
+            forward("403");
+        }
     }
 }

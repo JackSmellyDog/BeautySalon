@@ -12,7 +12,7 @@
         <jsp:include page="/WEB-INF/pages/footer.jsp"/>
     </jsp:attribute>
     <jsp:body>
-        <div class="container">
+        <div class="container" style="min-height: 100%">
             <div class="row">
                 <div class="col-xs-8">
                     <table class="table table-striped">

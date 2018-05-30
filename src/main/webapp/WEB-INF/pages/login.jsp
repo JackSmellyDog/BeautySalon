@@ -8,7 +8,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<fmt:setBundle basename="EN_messages" var="lang" scope="session"/>
 
 <html>
 <head>
@@ -22,21 +21,21 @@
 <div class="pin-to-center auth-form">
     <form method="post" action="/app?command=Login">
         <div class="form-group">
-            <label for="username"><fmt:message key="label.username" bundle="${lang}"/></label>
+            <label for="username"><fmt:message key="label.username"/></label>
             <input type="text" name="username" id="username" class="form-control" placeholder="example@example.com">
         </div>
 
         <div class="form-group">
-            <label for="password"><fmt:message key="label.password" bundle="${lang}"/></label>
+            <label for="password"><fmt:message key="label.password"/></label>
             <input type="password" name="password" id="password" class="form-control" placeholder="password">
         </div>
 
-        <button type="submit" class="btn btn-info"><fmt:message key="button.login" bundle="${lang}"/></button>
+        <button type="submit" class="btn btn-info"><fmt:message key="button.login"/></button>
     </form>
     <div class="text-danger">${message}</div>
 
     <div class="text-center">
-        <a href="/app?command=Register" ><fmt:message key="button.registration" bundle="${lang}"/></a>
+        <a href="/app?command=Register" ><fmt:message key="button.registration"/></a>
     </div>
 
 </div>

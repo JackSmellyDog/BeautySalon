@@ -4,11 +4,25 @@
 <%@attribute name="header" fragment="true" %>
 <%@attribute name="footer" fragment="true" %>
 
-<fmt:setLocale value="en" scope="session"/>
-<fmt:setBundle basename="EN_messages" scope="session"/>
+<c:choose>
+    <c:when test="${lang == 'EN'}">
+        <fmt:setLocale value="EN" scope="session"/>
+        <fmt:setBundle basename="EN_messages" scope="session"/>
+    </c:when>
+    <c:when test="${lang == 'UA'}">
+        <fmt:setLocale value="UA" scope="session"/>
+        <fmt:setBundle basename="UA_messages" scope="session"/>
+    </c:when>
+    <c:otherwise>
+        <fmt:setLocale value="EN" scope="session"/>
+        <fmt:setBundle basename="EN_messages" scope="session"/>
+    </c:otherwise>
+</c:choose>
+
 
 <html>
 <head>
+    <title>Beauty</title>
     <script src="resources/js/jquery-3.3.1.min.js"></script>
     <script src="resources/js/moment.min.js"></script>
     <script src="resources/js/bootstrap.min.js"></script>

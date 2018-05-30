@@ -3,9 +3,6 @@
 <%@ taglib prefix="ct" uri="http://localhost:8080/" %>
 <%@ taglib prefix="mct" uri="/WEB-INF/tld/schedule.tld" %>
 
-
-<div class="row" style="height: 15%; margin-right: 0px; margin-left: 0px"></div>
-
 <div class="row my-footer" style="margin-right: 0px; margin-left: 0px">
     <div class="col-xs-8">
         <a href="https://t.me/JackSmellyDog" target="_blank">

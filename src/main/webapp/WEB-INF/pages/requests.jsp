@@ -3,6 +3,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <t:genericpage>
     <jsp:attribute name="header">
@@ -12,10 +13,13 @@
         <jsp:include page="/WEB-INF/pages/footer.jsp"/>
     </jsp:attribute>
     <jsp:body>
+
+        <c:set var="amount" value="${fn:length(requests)}"/>
         <c:set var="page" value="${page == null? 1 : page}"/>
         <c:set var="itemsAmount" value="${amount == null? 1 : amount}"/>
         <c:set var="itemsPerPage" value="5"/>
         <c:set var="endPageNumber" value="${itemsAmount % itemsPerPage == 0? itemsAmount / itemsPerPage : itemsAmount / itemsPerPage + 1}"/>
+        <div style="min-height: 100%">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -78,8 +82,8 @@
             </tbody>
         </table>
 
-        <div class="row">
-            <div class="col-xs-6 col-xs-offset-4">
+        <div class="row" style="margin-left: 0; margin-right: 0;">
+            <div class="col-xs-6 col-xs-offset-5">
             <nav aria-label="Page navigation example" >
                 <ul class="pagination">
                     <li class="page-item">
@@ -109,6 +113,7 @@
                 </ul>
             </nav>
             </div>
+        </div>
         </div>
 
     </jsp:body>

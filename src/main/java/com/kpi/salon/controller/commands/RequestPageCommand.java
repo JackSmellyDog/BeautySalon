@@ -36,7 +36,6 @@ public class RequestPageCommand extends FrontCommand {
 
         if (requests != null) {
             session.setAttribute("requests", requests);
-            request.setAttribute("amount", requests.size());
 
             String page = request.getParameter("page");
             request.setAttribute("page", (page == null)? 1 : page);
