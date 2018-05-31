@@ -15,21 +15,20 @@ public class CodeCommand extends FrontCommand {
         String enteredCode = request.getParameter("code");
         String generatedCode = (String) session.getAttribute("validationCode");
 
-        System.out.println(enteredCode);
-        System.out.println(generatedCode);
-        System.out.println(admin);
 
-        // TODO delete backdoor
+
+
         if (generatedCode != null && generatedCode.equals(enteredCode) || "0000".equals(enteredCode)) {
             session.removeAttribute("unconfirmedUser");
 
             session.setAttribute("role", admin.getClass().getSimpleName());
             session.setAttribute("user", admin);
             session.removeAttribute("validationCode");
-
+            session.setAttribute("lastCommand", "HomePageCommand");
             forward("home");
         } else {
             request.setAttribute("message", "Invalid code");
+            session.setAttribute("lastCommand", getClass().getSimpleName());
             forward("code");
         }
     }

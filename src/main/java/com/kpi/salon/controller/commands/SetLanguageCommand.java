@@ -14,7 +14,7 @@ public class SetLanguageCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         try {
-            String from = request.getHeader("Referer");
+            //String from = request.getHeader("Referer");
             String lang = request.getParameter("lang");
             HttpSession session = request.getSession();
 
@@ -25,56 +25,43 @@ public class SetLanguageCommand extends FrontCommand {
             }
 
 
-            if (from != null) {
-                URI uri = new URI(from);
-                String query = uri.getQuery();
+                String lastCommand = (String ) session.getAttribute("lastCommand");
 
-                String command = query.split("&")[0].split("=")[1];
-
-                switch (command) {
-                    case "MasterPage":
-                        forward("masters");
-                        break;
-                    case "ReviewPage":
-                        forward("reviews");
-                        break;
-                    case "DeleteMaster":
-                        forward("masters");
-                        break;
-                    case "Code":
-                        forward("code");
-                        break;
-                    case "CompleteRequest":
-                        forward("requests");
-                        break;
-                    case "CancelRequest":
-                        forward("requests");
-                        break;
-                    case "AddReview":
+                switch (lastCommand) {
+                    case "AddReviewCommand":
                         forward("newreview");
                         break;
-                    case "AddRequest":
+                    case "AddRequestCommand":
                         forward("newrequest");
                         break;
-                    case "AddMaster":
+                    case "RegisterCommand":
+                        forward("registration");
+                        break;
+                    case "LoginCommand":
+                        forward("login");
+                        break;
+                    case "RequestPageCommand":
+                        forward("requests");
+                        break;
+                    case "MasterPageCommand":
                         forward("masters");
                         break;
+                    case "ReviewPageCommand":
+                        forward("reviews");
+                        break;
+                    case "CodeCommand":
+                        forward("code");
+                        break;
+
                     default:
                         forward("home");
                         break;
                 }
 
-                LOGGER.info(command);
 
-
-            } else {
-                forward("home");
-            }
-
-        } catch (NullPointerException | URISyntaxException e) {
+        } catch (NullPointerException e) {
             LOGGER.error(e.getMessage(), e);
             forward("home");
         }
-
     }
 }

@@ -62,7 +62,6 @@ public class ScheduleTag extends SimpleTagSupport {
         LocalDateTime currentDate = LocalDateTime.now().withHour(0).withMinute(0);
 
         String languageTag = lang == null? "EN" : ("UA".equals(lang)? "UK" : "EN");
-
         Locale locale = Locale.forLanguageTag(languageTag);
 
         requests = requests.stream()

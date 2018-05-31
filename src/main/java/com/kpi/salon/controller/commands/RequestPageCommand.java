@@ -36,6 +36,7 @@ public class RequestPageCommand extends FrontCommand {
 
         if (requests != null) {
             session.setAttribute("requests", requests);
+            session.setAttribute("lastCommand", getClass().getSimpleName());
 
             String page = request.getParameter("page");
             request.setAttribute("page", (page == null)? 1 : page);

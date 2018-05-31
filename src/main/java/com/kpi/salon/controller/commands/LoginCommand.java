@@ -16,11 +16,12 @@ public class LoginCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        HttpSession session = request.getSession();
         if ("POST".equalsIgnoreCase(request.getMethod())) {
             try {
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
-                HttpSession session = request.getSession();
+
 
                 UserService userService = new UserService();
                 User user = userService.login(username, password);
@@ -41,13 +42,14 @@ public class LoginCommand extends FrontCommand {
 //                    SmsService smsService = new SmsService();
 //                    smsService.sendSms(validationCode, admin.getPhone());
 
+                    session.setAttribute("lastCommand", "CodeCommand");
                     forward("code");
 
                 } else {
 
                     session.setAttribute("user", user);
                     session.setAttribute("role", role);
-
+                    session.setAttribute("lastCommand", "HomePageCommand");
                     LOGGER.info(String.format("User %s has logged in", user.getLogin()));
                     forward("home");
                 }
@@ -58,6 +60,7 @@ public class LoginCommand extends FrontCommand {
                 forward("login");
             }
         } else {
+            session.setAttribute("lastCommand", getClass().getSimpleName());
             forward("login");
         }
     }

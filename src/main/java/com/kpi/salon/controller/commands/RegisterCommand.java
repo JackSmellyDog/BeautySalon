@@ -14,9 +14,10 @@ public class RegisterCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        HttpSession session = request.getSession();
         if ("POST".equalsIgnoreCase(request.getMethod())) {
             try {
-                HttpSession session = request.getSession();
+
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
                 String confirmPassword = request.getParameter("confirmPassword");
@@ -27,6 +28,7 @@ public class RegisterCommand extends FrontCommand {
                     Client client = (Client) userService.login(username, password);
                     session.setAttribute("user", client);
                     session.setAttribute("role", client.getClass().getSimpleName());
+                    session.setAttribute("lastCommand", "HomePageCommand");
                     forward("home");
                 }
 
@@ -34,6 +36,7 @@ public class RegisterCommand extends FrontCommand {
                 LOGGER.error(e.getMessage(), e);
             }
         } else {
+            session.setAttribute("lastCommand", getClass().getSimpleName());
             forward("registration");
         }
     }

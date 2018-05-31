@@ -22,6 +22,7 @@ public class MasterPageCommand extends FrontCommand {
                 session.setAttribute("masters", userService.findAllMasters());
             }
 
+            session.setAttribute("lastCommand", getClass().getSimpleName());
             forward("masters");
 
         } else {

@@ -34,6 +34,8 @@ public class AddRequestCommand extends FrontCommand {
                 if (user == null)
                     throw new RequestFailException("Unauthorized user can't make requests");
 
+
+                session.setAttribute("lastCommand", getClass().getSimpleName());
                 Long clientId = user.getId();
 
                 String masterId = request.getParameter("master_id");
@@ -71,6 +73,7 @@ public class AddRequestCommand extends FrontCommand {
             } catch (NumberFormatException | DateTimeParseException | RequestFailException e) {
                 LOGGER.error(e.getMessage(), e);
                 request.setAttribute("error", "Invalid request data");
+                session.setAttribute("lastCommand", getClass().getSimpleName());
                 forward("newrequest");
             }
 
@@ -81,9 +84,9 @@ public class AddRequestCommand extends FrontCommand {
                 request.setAttribute("chosen_master_id", masterId);
             }
 
-            if (session.getAttribute("masters") == null) {
-                session.setAttribute("masters", userService.findAllMasters());
-            }
+            session.setAttribute("masters", userService.findAllMasters());
+            session.setAttribute("lastCommand", getClass().getSimpleName());
+
             forward("newrequest");
         }
     }

@@ -10,6 +10,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
+<c:choose>
+    <c:when test="${lang == 'EN'}">
+        <fmt:setLocale value="EN" scope="session"/>
+        <fmt:setBundle basename="EN_messages" scope="session"/>
+    </c:when>
+    <c:when test="${lang == 'UA'}">
+        <fmt:setLocale value="UA" scope="session"/>
+        <fmt:setBundle basename="UA_messages" scope="session"/>
+    </c:when>
+    <c:otherwise>
+        <fmt:setLocale value="EN" scope="session"/>
+        <fmt:setBundle basename="EN_messages" scope="session"/>
+    </c:otherwise>
+</c:choose>
+
 <html>
 <head>
     <title>Registration</title>
@@ -21,6 +36,10 @@
 <body class="freaking-ping">
 
 <div class="pin-to-center auth-form">
+    <div>
+        <a href="/app?command=SetLanguage&lang=UA"><img src="/resources/img/flags/ukraine.png"></a>
+        <a href="/app?command=SetLanguage&lang=EN"><img src="/resources/img/flags/uk.png"></a>
+    </div>
     <form method="post" action="/app?command=Register">
         <div class="form-group">
             <label for="username"><fmt:message key="label.username"/> </label>

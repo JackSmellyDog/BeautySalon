@@ -17,7 +17,9 @@ public class AddReviewCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
         HttpSession session = request.getSession();
 
+
         if ("POST".equalsIgnoreCase(request.getMethod())) {
+            session.setAttribute("lastCommand", getClass().getSimpleName());
             ReviewService reviewService = new ReviewService();
 
             Request req = (Request) session.getAttribute("for_review");
@@ -30,9 +32,8 @@ public class AddReviewCommand extends FrontCommand {
 
             if (reviewService.updateTextAndRating(oldReview.getId(), text, rating)) {
 
-                if (session.getAttribute("reviews") == null) {
-                    session.setAttribute("reviews", reviewService.findAllReviews());
-                }
+                session.setAttribute("reviews", reviewService.findAllReviews());
+                session.setAttribute("lastCommand", "ReviewPageCommand");
 
                 forward("reviews");
             }
@@ -43,7 +44,7 @@ public class AddReviewCommand extends FrontCommand {
             Request req = requestService.findRequestById(id);
 
             session.setAttribute("for_review", req);
-
+            session.setAttribute("lastCommand", getClass().getSimpleName());
             forward("newreview");
         }
     }

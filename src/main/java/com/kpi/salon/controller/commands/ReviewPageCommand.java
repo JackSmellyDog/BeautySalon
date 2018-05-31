@@ -18,6 +18,7 @@ public class ReviewPageCommand extends FrontCommand {
 
             String page = request.getParameter("page");
             request.setAttribute("page", (page == null)? 1 : page);
+            session.setAttribute("lastCommand", getClass().getSimpleName());
 
             forward("reviews");
         } else {
